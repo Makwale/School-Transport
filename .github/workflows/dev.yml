@@ -1,0 +1,27 @@
+name: dev
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches:
+      - master
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  firebase-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+      with:
+        node-version: '12.x'
+    - run: npm install
+    - run: npm run build:staging
+    - uses: w9jds/firebase-action@master
+      with:
+        args: deploy --only hosting:qltechtestproject --project qltechtestproject
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

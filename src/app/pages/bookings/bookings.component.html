@@ -1,0 +1,70 @@
+<div class="container-fluid mt-5">
+    <div class="form-group">
+        <label>Filter bookings</label>
+        <input (keydown)="searchBooking()" [formControl]="searchControl" class="form-control" placeholder="Enter booking info">
+    </div>
+    <mat-progress-bar *ngIf="isLoadingData" mode="buffer"></mat-progress-bar>
+      <div class="card" [hidden]="isLoadingData">
+        <div class="card-body">
+            <div>
+                <table mat-table [dataSource]="dataSource" matSort>
+                  <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                        [aria-label]="checkboxLabel()">
+                      </mat-checkbox>
+                     </th>
+                    <td mat-cell *matCellDef="let row"> 
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)"
+                                  [aria-label]="checkboxLabel(row)">
+                    </mat-checkbox> 
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                    <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="creationDate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Created at </th>
+                    <td mat-cell *matCellDef="let row"> {{row.creationDate| date: "dd-MM-YYYY hh'h'mm"}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="amount">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+                    <td mat-cell *matCellDef="let row"> {{row.amount| currency: 'R'}} </td>
+                  </ng-container>
+              
+
+                  <ng-container matColumnDef="duration">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration in minutes</th>
+                    <td mat-cell *matCellDef="let row"> {{row.duration}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="parking">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Parking name</th>
+                    <td mat-cell *matCellDef="let row"> {{row.parkingLot.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="made">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Made by </th>
+                    <td mat-cell *matCellDef="let row"> 
+                        {{row.user.name}} {{row.user.surname}}
+                    </td>
+                  </ng-container>
+              
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              
+                  <!-- Row shown when there is no matching data. -->
+                </table>
+              
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+              </div>
+        </div>
+      </div>
+</div>

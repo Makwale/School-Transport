@@ -1,0 +1,14 @@
+{
+   "targets": {
+    "qltechtestproject": {
+      "hosting": {
+        "qltechtestproject": [
+          "qltechtestproject"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "qltechtestproject"
+  }
+}
