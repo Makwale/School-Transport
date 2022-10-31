@@ -9,6 +9,11 @@ import { UsersComponent } from "./pages/users/users.component";
 import { ParkingLotComponent } from "./pages/parking-lot/parking-lot.component";
 import { BookingsComponent } from "./pages/bookings/bookings.component";
 import { ProfileComponent } from "./pages/profile/profile.component";
+import { LearnersComponent } from "./pages/learners/learners.component";
+import { SchoolsComponent } from "./pages/schools/schools.component";
+import { TransportComponent } from "./pages/transport/transport.component";
+import { DriversComponent } from "./pages/drivers/drivers.component";
+import { OwnersComponent } from "./pages/owners/owners.component";
 const routes: Routes = [
 
   {
@@ -22,12 +27,28 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'users',
+        redirectTo: 'learners',
         pathMatch: 'full',
       },
       {
-        path: 'users',
-        component: UsersComponent
+        path: 'learners',
+        component: LearnersComponent
+      },
+      {
+        path: 'schools',
+        component: SchoolsComponent
+      },
+      {
+        path: 'transports',
+        component: TransportComponent
+      },
+      {
+        path: 'drivers',
+        component: DriversComponent
+      },
+      {
+        path: 'owners',
+        component: OwnersComponent
       },
       {
         path: 'parking-lot',

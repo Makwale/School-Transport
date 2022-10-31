@@ -33,6 +33,10 @@ import { PricingComponent } from "./pages/parking-lot/modals/pricing/pricing.com
 import { EditParkingLotComponent } from "./pages/parking-lot/modals/edit-parking-lot/edit-parking-lot.component";
 import { BookingsComponent } from "./pages/bookings/bookings.component";
 import { ProfileComponent } from "./pages/profile/profile.component";
+import { LearnersComponent } from "./pages/learners/learners.component";
+import { SchoolsComponent } from "./pages/schools/schools.component";
+import { TransportComponent } from "./pages/transport/transport.component";
+import { DriversComponent } from "./pages/drivers/drivers.component";
 
 @NgModule({
   declarations: [
@@ -45,7 +49,11 @@ import { ProfileComponent } from "./pages/profile/profile.component";
     PricingComponent,
     EditParkingLotComponent,
     BookingsComponent,
-    ProfileComponent
+    ProfileComponent,
+    LearnersComponent,
+    SchoolsComponent,
+    TransportComponent,
+    DriversComponent
   ],
   imports: [
     BrowserAnimationsModule,

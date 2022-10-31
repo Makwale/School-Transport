@@ -4,7 +4,7 @@ import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
 import { HttpLink } from 'apollo-angular/http';
 import { HttpHeaders } from '@angular/common/http';
 
-const uri = 'https://parkspot.hasura.app/v1/graphql'; // <-- add the URL of the GraphQL server here
+const uri = 'https://schooltransport.hasura.app/v1/graphql'; // <-- add the URL of the GraphQL server here
 
 const headers = new HttpHeaders().set('x-hasura-admin-secret', '1bk36uR1bp53Bcl1Ez0E5d7zXvYzmJV7dN1w6sSOONF5KMYMFyRdUBqRBAibxDx8')
 // const headers = new HttpHeaders().set('Authorization',

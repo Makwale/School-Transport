@@ -32,6 +32,41 @@ export interface ChildrenItems2 {
 //Menu Items
 export const ROUTES: RouteInfo[] = [
   {
+    path: "/admin/learners",
+    title: "Leaners",
+    type: "link",
+    icontype: "escalator_warning",
+    isCollapsed: true,
+  },
+  {
+    path: "/admin/schools",
+    title: "Schools",
+    type: "link",
+    icontype: "school",
+    isCollapsed: true,
+  },
+  {
+    path: "/admin/transports",
+    title: "Transports",
+    type: "link",
+    icontype: "local_taxi",
+    isCollapsed: true,
+  },
+  {
+    path: "/admin/drivers",
+    title: "Drivers",
+    type: "link",
+    icontype: "person_3",
+    isCollapsed: true,
+  },
+  {
+    path: "/admin/owners",
+    title: "Transport Owners",
+    type: "link",
+    icontype: "manage_accounts",
+    isCollapsed: true,
+  },
+  {
     path: "/admin/users",
     title: "Users",
     type: "link",
@@ -59,6 +94,7 @@ export const ROUTES: RouteInfo[] = [
     icontype: "person",
     isCollapsed: true,
   },
+
 
 ];
 
