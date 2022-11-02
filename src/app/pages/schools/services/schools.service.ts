@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
-import { GET_SCHOOLS } from '../graphql/schools.qraphql';
+import { DELETE_SCHOOL, GET_SCHOOLS, INSERT_SCHOOL, UPDATE_SCHOOL } from '../graphql/schools.qraphql';
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +13,34 @@ export class SchoolsService {
       query: GET_SCHOOLS
     });
     return this.schoolsQueryRef.valueChanges;
+  }
+
+  addSchool(school: any){
+    return this.apollo.mutate({
+      mutation: INSERT_SCHOOL,
+      variables: {
+        school
+      }
+    });
+  }
+
+  deleteSchool(id: string){
+    return this.apollo.mutate({
+      mutation: DELETE_SCHOOL,
+      variables: {
+        id
+      }
+    });
+  }
+
+  updateSchool(id: string, school: any, address){
+    return this.apollo.mutate({
+      mutation: UPDATE_SCHOOL,
+      variables: {
+        id,
+        school,
+        address
+      }
+    });
   }
 }

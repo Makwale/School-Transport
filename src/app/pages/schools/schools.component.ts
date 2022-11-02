@@ -1,13 +1,18 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import jsPDF from 'jspdf';
 import { UtilsService } from 'src/app/shared/services/utils.service';
+import { AddSchoolComponent } from './modals/add-school/add-school.component';
+import { EditSchoolComponent } from './modals/edit-school/edit-school.component';
 import { School } from './models/school.model';
 import { SchoolsService } from './services/schools.service';
+import swal from "sweetalert2";
+
 
 @Component({
   selector: 'app-schools',
@@ -16,7 +21,7 @@ import { SchoolsService } from './services/schools.service';
 })
 export class SchoolsComponent implements OnInit {
   schools: School[] = [];
-  displayedColumns: string[] = ['name', 'streetName', 'suburb', 'city', 'actions'];
+  displayedColumns: string[] = ['name', 'level' , 'streetName', 'suburb', 'city', 'actions'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -25,7 +30,8 @@ export class SchoolsComponent implements OnInit {
   selection = new SelectionModel<any>(true, []);
   constructor(
     public schoolsService: SchoolsService,
-    private utilityService: UtilsService) { }
+    private utilityService: UtilsService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.searchControl = new FormControl(null);
@@ -84,22 +90,28 @@ export class SchoolsComponent implements OnInit {
   }
 
   addSchool(){
-   //  this.dialog.open(CreateParkingLotComponent, {
-   //    width: '400px',
-   //  })
+    this.dialog.open(AddSchoolComponent, {
+      width: '400px',
+    })
   }
 
-  editParkingLot(school: School){
-   //  this.dialog.open(EditParkingLotComponent, {
-   //    width: '400px',
-   //    data: parkingLot
-   //  })
+  editSchool(school: School){
+    this.dialog.open(EditSchoolComponent, {
+      width: '400px',
+      data: school
+    })
   }
 
-  async deleteParking(row: School){
+  async deleteSchool(row: School){
     const results = await UtilsService.showDeleteAlert();
     if(results.isConfirmed){
-     
+      this.schoolsService.deleteSchool(row.id).subscribe(async result => {
+         await this.schoolsService.schoolsQueryRef.refetch()
+        swal.fire({
+          title: "Successfully deleted",
+          icon: "success",
+        });
+      })
     }
   }
 

@@ -37,6 +37,9 @@ import { LearnersComponent } from "./pages/learners/learners.component";
 import { SchoolsComponent } from "./pages/schools/schools.component";
 import { TransportComponent } from "./pages/transport/transport.component";
 import { DriversComponent } from "./pages/drivers/drivers.component";
+import { AddSchoolComponent } from "./pages/schools/modals/add-school/add-school.component";
+import { EditSchoolComponent } from "./pages/schools/modals/edit-school/edit-school.component";
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -53,7 +56,9 @@ import { DriversComponent } from "./pages/drivers/drivers.component";
     LearnersComponent,
     SchoolsComponent,
     TransportComponent,
-    DriversComponent
+    DriversComponent,
+    AddSchoolComponent,
+    EditSchoolComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -78,7 +83,8 @@ import { DriversComponent } from "./pages/drivers/drivers.component";
     FormsModule,
     MatProgressBarModule,
     MatCheckboxModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [AmplifyService, Apollo],
