@@ -74,20 +74,6 @@ export const ROUTES: RouteInfo[] = [
     isCollapsed: true,
   },
   {
-    path: "/admin/parking-lot",
-    title: "Parking Lot",
-    type: "link",
-    icontype: "local_parking",
-    isCollapsed: true,
-  },
-  {
-    path: "/admin/bookings",
-    title: "Bookings",
-    type: "link",
-    icontype: "ballot",
-    isCollapsed: true,
-  },
-  {
     path: "/admin/profile",
     title: "Profile",
     type: "link",

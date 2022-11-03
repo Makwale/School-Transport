@@ -28,10 +28,10 @@ export class DriversComponent implements OnInit {
   ngOnInit(): void {
     this.searchControl = new FormControl(null);
     this.dataSource = new MatTableDataSource(this.drivers);
-    this.getLeaners();
+    this.getDrivers();
   }
 
-  getLeaners(){
+  getDrivers(){
     this.isLoadingData = true;
     this.driversService.getDrivers().subscribe(res => {
       this.drivers = res.data.driver;
@@ -46,7 +46,7 @@ export class DriversComponent implements OnInit {
     })
   }
 
-  searchLearners(){
+  searchDrivers(){
     this.dataSource.filter = this.searchControl.value;
   }
  

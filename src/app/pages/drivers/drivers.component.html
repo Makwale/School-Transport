@@ -6,8 +6,8 @@
         </button>
     </div>
     <div class="form-group">
-        <label>Filter learners</label>
-        <input (keydown)="searchLearners()" [formControl]="searchControl" class="form-control" placeholder="Enter learner info">
+        <label>Filter drivers</label>
+        <input (keydown)="searchDrivers()" [formControl]="searchControl" class="form-control" placeholder="Enter driver info">
     </div>
     <mat-progress-bar *ngIf="isLoadingData" mode="buffer"></mat-progress-bar>
       <div class="card" [hidden]="isLoadingData">
