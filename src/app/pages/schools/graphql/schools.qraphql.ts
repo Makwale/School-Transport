@@ -6,7 +6,6 @@ query GetSchools {
     id
     name
     level: school_level
-    location
     address: school_address {
       streetName: street_name
       suburb

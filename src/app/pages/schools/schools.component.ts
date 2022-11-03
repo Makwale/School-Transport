@@ -21,7 +21,7 @@ import swal from "sweetalert2";
 })
 export class SchoolsComponent implements OnInit {
   schools: School[] = [];
-  displayedColumns: string[] = ['name', 'level' , 'streetName', 'suburb', 'city', 'actions'];
+  displayedColumns: string[] = ['name', 'level' , 'streetName', 'suburb', 'city', 'postalCode', 'actions'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
