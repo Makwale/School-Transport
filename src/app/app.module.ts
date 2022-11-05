@@ -41,6 +41,7 @@ import { AddSchoolComponent } from "./pages/schools/modals/add-school/add-school
 import { EditSchoolComponent } from "./pages/schools/modals/edit-school/edit-school.component";
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
+import { OwnersComponent } from "./pages/owners/owners.component";
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {MatIconModule} from '@angular/material/icon';
     TransportComponent,
     DriversComponent,
     AddSchoolComponent,
-    EditSchoolComponent
+    EditSchoolComponent,
+    OwnersComponent
   ],
   imports: [
     BrowserAnimationsModule,
