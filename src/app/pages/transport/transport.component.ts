@@ -18,7 +18,7 @@ import { TransportService } from './services/transport.service';
 export class TransportComponent implements OnInit {
 
   transports: School[] = [];
-  displayedColumns: string[] = ['make', 'model', 'regno', 'capacity', 'actions'];
+  displayedColumns: string[] = ['make', 'model', 'type', 'regno', 'capacity', 'actions'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

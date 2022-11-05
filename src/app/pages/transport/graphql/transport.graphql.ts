@@ -6,6 +6,7 @@ query GetTransport {
       id
       make
       model
+      type
       regno
       capacity
     }

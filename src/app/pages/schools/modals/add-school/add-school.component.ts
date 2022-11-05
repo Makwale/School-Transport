@@ -51,12 +51,12 @@ export class AddSchoolComponent implements OnInit {
     const data = {
       name: this.schoolForm.value.name,
       school_level: this.schoolForm.value.level.value,
-      school_address: {
+      location: {
         data: {
           street_name: this.schoolForm.value.streetName,
           suburb: this.schoolForm.value.suburb,
           city: this.schoolForm.value.city,
-          postal_code: this.schoolForm.value.postalCode,
+          postal_code: String(this.schoolForm.value.postalCode),
         }
       }
     }
@@ -70,6 +70,11 @@ export class AddSchoolComponent implements OnInit {
           icon: "success",
         });
         this.schoolService.schoolsQueryRef.refetch();
+      }, error => {
+        swal.fire({
+          title: error.message,
+          icon: "error",
+        });
       });
     }
   }

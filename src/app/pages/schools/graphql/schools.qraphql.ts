@@ -6,7 +6,7 @@ query GetSchools {
     id
     name
     level: school_level
-    address: school_address {
+    address: location {
       streetName: street_name
       suburb
       city
@@ -31,11 +31,11 @@ mutation DeleteSchool($id: uuid!){
 `;
 
 export const UPDATE_SCHOOL = gql`
-mutation updateSchool($id: uuid!, $school: school_set_input!, $address: school_address_set_input) {
+mutation updateSchool($id: uuid!, $school: school_set_input!, $address: location_set_input) {
   update_school_by_pk(pk_columns: {id: $id}, _set: $school) {
     id
   }
-  update_school_address(where: {school_id: {_eq: $id}}, _set: $address) {
+  update_location(where: {school_id: {_eq: $id}}, _set: $address) {
     returning {
       id
     }

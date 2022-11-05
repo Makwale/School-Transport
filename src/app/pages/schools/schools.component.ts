@@ -21,13 +21,13 @@ import swal from "sweetalert2";
 })
 export class SchoolsComponent implements OnInit {
   schools: School[] = [];
-  displayedColumns: string[] = ['name', 'level' , 'streetName', 'suburb', 'city', 'postalCode', 'actions'];
+  displayedColumns: string[] = ['select', 'name', 'level' , 'streetName', 'suburb', 'city', 'postalCode', 'actions'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   searchControl: FormControl;
   isLoadingData: boolean;
-  selection = new SelectionModel<any>(true, []);
+  selection = new SelectionModel<School>(true, []);
   constructor(
     public schoolsService: SchoolsService,
     private utilityService: UtilsService,
@@ -91,13 +91,13 @@ export class SchoolsComponent implements OnInit {
 
   addSchool(){
     this.dialog.open(AddSchoolComponent, {
-      width: '400px',
+      width: '650px',
     })
   }
 
   editSchool(school: School){
     this.dialog.open(EditSchoolComponent, {
-      width: '400px',
+      width: '650px',
       data: school
     })
   }
@@ -120,19 +120,21 @@ export class SchoolsComponent implements OnInit {
       orientation: 'l',
     });
 
-    doc?.text('PARKING LOT REPORT', 115, 20);
+    doc?.text('SCHOOL REPORT', 115, 20);
     let index = 1;
     doc?.cell(10, 40, 100, 10, 'Name'.toUpperCase(), index, 'left');
-    doc?.cell(10, 40, 100, 10, 'Number of spaces'.toUpperCase(), index, 'left');
+    doc?.cell(10, 40, 45, 10, 'Level'.toUpperCase(), index, 'left');
+    doc?.cell(10, 40, 120, 10, 'Address'.toUpperCase(), index, 'left');
 
     index++;
-    for (const parking of this.selection.selected) {
-      console.log(parking);
-      doc?.cell(10, 40, 100, 10, parking?.name?.toUpperCase(), index, 'left');
-      doc?.cell(10, 40, 100, 10, parking?.numberOfSpots.toString(), index, 'left');
+    for (const school of this.selection.selected) {
+      const address = school.address.streetName + ' ' + school.address.suburb + ' ' + school.address.city + ' ' + school.address.postalCode;
+      doc?.cell(10, 40, 100, 10, school?.name?.toUpperCase(), index, 'left');
+      doc?.cell(10, 40, 45, 10, school?.level.toLocaleUpperCase(), index, 'left');
+      doc?.cell(10, 40, 120, 10, address, index, 'left');
 
       index++;
     }
-    doc?.save('Parking Lot Report.pdf');
+    doc?.save('School report.pdf');
   }
 }

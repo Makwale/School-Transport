@@ -1,8 +1,11 @@
 <div class="container-fluid mt-5">
     <div class="row no-gutters">
-        <button (click)="addSchool()" class="ml-auto text-primary" mat-flat-button style="width: fit-content;">Add <span class="ml-1 text-primary material-icons">
+        <!-- <button  class="ml-auto text-primary" mat-flat-button style="width: fit-content;">Add <span class="ml-1 text-primary material-icons">
             add
             </span>
+        </button> -->
+        <button (click)="addSchool()" mat-fab color="primary" class="ml-auto">
+          <mat-icon>add</mat-icon>
         </button>
     </div>
     <div class="form-group">

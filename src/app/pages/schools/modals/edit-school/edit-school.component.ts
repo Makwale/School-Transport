@@ -57,23 +57,27 @@ export class EditSchoolComponent implements OnInit {
       name: this.schoolForm.value.name,
       school_level: this.schoolForm.value.level,
     }
-    const school_address = {
+    const location = {
         street_name: this.schoolForm.value.streetName,
         suburb: this.schoolForm.value.suburb,
         city: this.schoolForm.value.city,
-        postal_code: this.schoolForm.value.postalCode,
+        postal_code: String(this.schoolForm.value.postalCode),
     }
 
     if(this.schoolForm.valid){
       this.isLoading = true;
-      this.schoolService.updateSchool(this.data.id, data, school_address).subscribe(response => {
+      this.schoolService.updateSchool(this.data.id, data, location).subscribe( response => {
         this.isLoading = false;
-        this.schoolForm.reset();
         swal.fire({
           title: "Successfully created",
           icon: "success",
         });
         this.schoolService.schoolsQueryRef.refetch();
+      }, error => {
+        swal.fire({
+          title: error,
+          icon: "error",
+        });
       });
     }
   }

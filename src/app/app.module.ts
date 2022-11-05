@@ -40,6 +40,7 @@ import { DriversComponent } from "./pages/drivers/drivers.component";
 import { AddSchoolComponent } from "./pages/schools/modals/add-school/add-school.component";
 import { EditSchoolComponent } from "./pages/schools/modals/edit-school/edit-school.component";
 import {MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatProgressBarModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [AmplifyService, Apollo],
