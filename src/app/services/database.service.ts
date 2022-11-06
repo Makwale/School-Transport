@@ -21,8 +21,15 @@ const ADD_USER = gql`mutation AddUser($id: String, $firstname: String, $lastname
 `
 
 const GET_USER = gql`
-query GetUser {
-  user: user(where: {role: {_eq: "admin"}}) {
+query GetUser($id: uuid!) {
+  user: user_by_pk(id: $id) {
+    id
+    name
+    surname
+    email
+    role
+  }
+  owner: vehicle_owner_by_pk(id: $id) {
     id
     name
     surname
@@ -204,9 +211,12 @@ export class DatabaseService {
 
   }
 
-  getUser() {
+  getUser(id?: string) {
     this.clpropertiesQuery = this.apollo.watchQuery({
       query: GET_USER,
+      variables: {
+        id
+      }
     })
 
     return this.clpropertiesQuery.valueChanges;

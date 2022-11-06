@@ -4,6 +4,7 @@ import { Apollo, gql } from 'apollo-angular';
 import { Auth } from 'aws-amplify';
 import { CognitoUser } from '@aws-amplify/auth';
 import { User } from '../models/user.model';
+import { INSERT_OWNER, INSERT_USER } from '../graphql/user.graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -38,9 +39,26 @@ export class AuthService {
     });
   }
 
+  createUser(user: User){
+    if(user.role === 'parent'){
+      return this.apollo.mutate({
+        mutation: INSERT_USER,
+        variables: {
+          user
+        }
+      })
+    }
+    return this.apollo.mutate({
+      mutation: INSERT_OWNER,
+      variables: {
+        user
+      }
+    })
+  }
+
   verify(signupForm: FormGroup, verificationForm: FormGroup){
   
-    return Auth.confirmSignUp(signupForm.controls["username"].value, verificationForm.controls["vcode"].value)
+    return Auth.confirmSignUp(signupForm.controls["username"].value, signupForm.controls["vcode"].value)
   }
 
   sigin(signinForm: FormGroup): Promise<CognitoUser>{

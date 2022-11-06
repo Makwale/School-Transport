@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { AccountService } from "src/app/services/account.service";
 
 var misc: any = {
   sidebar_mini_active: true
@@ -93,10 +94,14 @@ export class SidebarComponent implements OnInit {
   public menuItems: any[];
   public isCollapsed = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+    private acs: AccountService) {}
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+    
+    if(this.acs.user.role === 'admin'){
+      this.menuItems = ROUTES.filter(menuItem => menuItem);
+    }
     this.router.events.subscribe(event => {
       this.isCollapsed = true;
     });

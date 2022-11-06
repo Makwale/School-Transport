@@ -34,17 +34,25 @@ export class LoginComponent implements OnInit {
     this.isCreated = true;
     this.as.sigin(this.signinForm).then(results => {
       const user: CognitoUser = results;
+      console.log(user);
       //Sub is used as user primary key in a database
-      this.dbs.getUser().subscribe(response => {
-        console.log(response.data)
-        this.isCreated = false;
-        this.acs.user = response.data.user[0];
-        this.acs.loginStatus = true;
-        this.router.navigate(['admin'])
+      results.getUserAttributes((error, results) => {
+        const sub = results.find(attr => attr.Name === 'sub').Value;
+         this.dbs.getUser(sub).subscribe(response => {
+          if(response.data.owner){
+            this.acs.user = response.data.owner;
+          }else{
+            this.acs.user = response.data.user;
+          }
+          this.isCreated = false;
+          this.acs.loginStatus = true;
+          this.router.navigate(['admin'])
 
-      }, error => {
-        console.log(error);
+        }, error => {
+          console.log(error);
+        });
       })
+     
 
     }).catch(error => {
       this.isCreated = false;

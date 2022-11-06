@@ -1,0 +1,13 @@
+<form [formGroup]="vForm">
+    <div class="form-group">
+        <!-- [ngClass]="{ focused: focus === true }" -->
+        <input class="form-control" placeholder="Verification code" type="text" formControlName="vcode" />
+    </div>
+</form>
+
+<div class="row no-gutters">
+    <button (click)="continue()" type="button" class="btn btn-primary ">
+        <span *ngIf="!isCreated">Continue</span>
+        <app-spinner *ngIf="isCreated"></app-spinner>
+    </button>
+</div>

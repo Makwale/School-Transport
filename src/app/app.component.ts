@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
 
       if (results) {
         console.log(results);
-        this.dbs.getUser().subscribe(response => {
+        this.dbs.getUser('').subscribe(response => {
           console.log(response.data);
           this.as.user = response.data.user[0];
           this.acs.loginStatus = true;
