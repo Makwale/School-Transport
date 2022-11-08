@@ -35,6 +35,22 @@ query GetUser($id: uuid!) {
     surname
     email
     role
+    vehicles {
+      capacity
+      availableSeats: available_seats
+      id
+      make
+      model
+      regno
+      type
+    }
+    drivers {
+      id
+      name
+      surname
+      email
+      phone
+    }
   }
 }
 `;

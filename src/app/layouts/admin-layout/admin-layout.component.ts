@@ -1,4 +1,6 @@
 import { Component, OnInit, HostListener } from "@angular/core";
+import { Router } from "@angular/router";
+import { AccountService } from "src/app/services/account.service";
 
 @Component({
   selector: "app-admin-layout",
@@ -8,7 +10,10 @@ import { Component, OnInit, HostListener } from "@angular/core";
 export class AdminLayoutComponent implements OnInit {
   isMobileResolution: boolean;
 
-  constructor() {
+  constructor(
+    private acs: AccountService,
+    private router: Router
+  ) {
     if (window.innerWidth < 1200) {
       this.isMobileResolution = true;
     } else {
@@ -23,5 +28,9 @@ export class AdminLayoutComponent implements OnInit {
       this.isMobileResolution = false;
     }
   }
-  ngOnInit() {}
+  ngOnInit() {
+    if(this.acs.user?.role === 'vehicle_owner'){
+      this.router.navigate(['admin/my-transports']);
+    }
+  }
 }

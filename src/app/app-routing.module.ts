@@ -14,6 +14,8 @@ import { SchoolsComponent } from "./pages/schools/schools.component";
 import { TransportComponent } from "./pages/transport/transport.component";
 import { DriversComponent } from "./pages/drivers/drivers.component";
 import { OwnersComponent } from "./pages/owners/owners.component";
+import { OwnerDriversComponent } from "./pages/owners/pages/owner-drivers/owner-drivers.component";
+import { OwnersTransportsComponent } from "./pages/owners/pages/owners-transports/owners-transports.component";
 const routes: Routes = [
 
   {
@@ -43,8 +45,16 @@ const routes: Routes = [
         component: TransportComponent
       },
       {
+        path: 'my-transports',
+        component: OwnersTransportsComponent
+      },
+      {
         path: 'drivers',
         component: DriversComponent
+      },
+      {
+        path: 'my-drivers',
+        component: OwnerDriversComponent
       },
       {
         path: 'owners',

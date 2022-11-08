@@ -42,6 +42,12 @@ import { EditSchoolComponent } from "./pages/schools/modals/edit-school/edit-sch
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import { OwnersComponent } from "./pages/owners/owners.component";
+import { OwnerDriversComponent } from "./pages/owners/pages/owner-drivers/owner-drivers.component";
+import { OwnersTransportsComponent } from "./pages/owners/pages/owners-transports/owners-transports.component";
+import { AddDriversComponent } from "./pages/owners/modals/add-drivers/add-drivers.component";
+import { AddVehicleComponent } from "./pages/owners/modals/add-vehicle/add-vehicle.component";
+import { EditDriverComponent } from "./pages/owners/modals/edit-driver/edit-driver.component";
+import { EditVehicleComponent } from "./pages/owners/modals/edit-vehicle/edit-vehicle.component";
 
 @NgModule({
   declarations: [
@@ -61,7 +67,13 @@ import { OwnersComponent } from "./pages/owners/owners.component";
     DriversComponent,
     AddSchoolComponent,
     EditSchoolComponent,
-    OwnersComponent
+    OwnersComponent,
+    OwnerDriversComponent,
+    OwnersTransportsComponent,
+    AddDriversComponent,
+    AddVehicleComponent,
+    EditDriverComponent,
+    EditVehicleComponent
   ],
   imports: [
     BrowserAnimationsModule,

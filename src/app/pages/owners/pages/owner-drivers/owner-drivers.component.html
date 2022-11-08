@@ -1,13 +1,12 @@
 <div class="container-fluid mt-5">
     <div class="row no-gutters">
-        <!-- <button (click)="addDriver()" class="ml-auto text-primary" mat-flat-button style="width: fit-content;">Add <span class="ml-1 text-primary material-icons">
-            add
-            </span>
-        </button> -->
+        <button (click)="addDriver()" class="ml-auto" color="primary" mat-fab>
+            <mat-icon>add</mat-icon>
+        </button>
     </div>
     <div class="form-group">
-        <label>Filter owners</label>
-        <input (keydown)="searchDrivers()" [formControl]="searchControl" class="form-control" placeholder="Enter owner info">
+        <label>Filter drivers</label>
+        <input (keydown)="searchDrivers()" [formControl]="searchControl" class="form-control" placeholder="Enter driver info">
     </div>
     <mat-progress-bar *ngIf="isLoadingData" mode="buffer"></mat-progress-bar>
       <div class="card" [hidden]="isLoadingData">
@@ -60,12 +59,12 @@
                   <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
                     <td mat-cell *matCellDef="let row"> 
-                        <button (click)="editParkingLot(row)" mat-icon-button>
+                        <button (click)="editDriver(row)" mat-icon-button>
                             <span class="material-icons text-primary">
                                 edit
                             </span>
                         </button>
-                        <button (click)="deleteParking(row)" mat-icon-button>
+                        <button (click)="deleteDriver(row)" mat-icon-button>
                             <span class="material-icons text-danger">
                                 delete
                             </span>

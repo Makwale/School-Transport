@@ -98,10 +98,35 @@ export class SidebarComponent implements OnInit {
     private acs: AccountService) {}
 
   ngOnInit() {
-    
-    if(this.acs.user.role === 'admin'){
+    console.log(this.acs.user);
+    if(this.acs.user?.role === 'admin'){
       this.menuItems = ROUTES.filter(menuItem => menuItem);
+    }else if( this.acs.user?.role === 'vehicle_owner'){
+      this.menuItems = [
+        {
+          path: "/admin/my-transports",
+          title: "Transports",
+          type: "link",
+          icontype: "local_taxi",
+          isCollapsed: true,
+        },
+        {
+          path: "/admin/my-drivers",
+          title: "Drivers",
+          type: "link",
+          icontype: "person_3",
+          isCollapsed: true,
+        },
+        {
+          path: "/admin/profile",
+          title: "Profile",
+          type: "link",
+          icontype: "person",
+          isCollapsed: true,
+        },
+      ]
     }
+
     this.router.events.subscribe(event => {
       this.isCollapsed = true;
     });
