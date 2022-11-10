@@ -44,3 +44,30 @@ mutation updateDriver($id: uuid!, $driver: driver_set_input!){
     id
   }
 }`;
+
+export const GET_VEHICLES = gql`
+query GetVehicles($id: uuid) {
+  vehicle(where: {owner_id: {_eq: $id}}) {
+    id
+    make
+    model
+    regno
+    type
+    capacity
+  }
+}
+`;
+
+export const ADD_VEHICLE = gql`
+mutation AddVehicle($vehicle: vehicle_insert_input!){
+  insert_vehicle_one(object: $vehicle){
+    id
+  }
+}`;
+
+export const UPDATE_VEHICLE = gql`
+mutation UpdateVehicle($id: uuid!, $vehicle: vehicle_set_input!) {
+  update_vehicle_by_pk(pk_columns: {id: $id}, _set: $vehicle){
+    id
+  }
+}`;

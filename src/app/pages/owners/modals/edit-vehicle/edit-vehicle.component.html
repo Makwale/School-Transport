@@ -1,1 +1,76 @@
-<p>edit-vehicle works!</p>
+<h3 mat-dialog-title >Vehicle Information</h3>
+<div mat-dialog-content>
+    <form [formGroup]="vehicleForm">
+        <div class="form-group">
+            <label >Type</label>
+            <mat-select (selectionChange)="selectMake($event)" formControlName="type" placeholder="Select type" class="form-control"
+            [ngClass]="{ 'is-invalid': isInvalid('type'), 'is-valid': isValid('type') }">
+              <mat-option *ngFor="let type of types" [value]="type.value">
+                {{type.name}}
+              </mat-option>
+            </mat-select>
+            <ng-container *ngFor="let validation of validationMessages.required">
+                <div class="form-text invalid-feedback" *ngIf="hasError('type', validation.type)">
+                  {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="form-group">
+            <label >Make</label>
+            <mat-select (selectionChange)="selectMake($event)" formControlName="make" placeholder="Select make" class="form-control"
+            [ngClass]="{ 'is-invalid': isInvalid('make'), 'is-valid': isValid('make') }">
+              <mat-option *ngFor="let m of make" [value]="m.value">
+                {{m.name}}
+              </mat-option>
+            </mat-select>
+            <ng-container *ngFor="let validation of validationMessages.required">
+                <div class="form-text invalid-feedback" *ngIf="hasError('make', validation.type)">
+                  {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="form-group">
+            <label >Model</label>
+            <mat-select formControlName="model" placeholder="Select model" class="form-control" 
+            [ngClass]="{ 'is-invalid': isInvalid('model'), 'is-valid': isValid('model') }">
+              <mat-option *ngFor="let model of modelOfMake" [value]="model.value">
+                {{model.name}}
+              </mat-option>
+            </mat-select>
+            <ng-container *ngFor="let validation of validationMessages.required">
+                <div class="form-text invalid-feedback" *ngIf="hasError('model', validation.type)">
+                  {{ validation.message }}
+                </div>
+            </ng-container>
+        </div>
+        <div class="form-group">
+          <label >Reg No</label>
+          <input formControlName="regno" type="text" class="form-control" placeholder="Enter reg no" 
+          [ngClass]="{ 'is-invalid': isInvalid('regno'), 'is-valid': isValid('regno') }">
+          <ng-container *ngFor="let validation of validationMessages.required">
+            <div class="form-text invalid-feedback" *ngIf="hasError('regno', validation.type)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+        <div class="form-group">
+          <label >Capacity</label>
+          <input formControlName="capacity" type="number" class="form-control" placeholder="Enter capacity" 
+          [ngClass]="{ 'is-invalid': isInvalid('capacity'), 'is-valid': isValid('capacity') }">
+          <ng-container *ngFor="let validation of validationMessages.required">
+            <div class="form-text invalid-feedback" *ngIf="hasError('capacity', validation.type)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+  <button (click)="addSchool()" mat-button  class="text-primary">
+    <span *ngIf="!isLoading">Save</span>
+    <div *ngIf="isLoading" class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    </button>
+</div>

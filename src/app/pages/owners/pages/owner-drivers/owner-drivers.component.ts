@@ -73,19 +73,19 @@ export class OwnerDriversComponent implements OnInit {
      }
    
      /** Selects all rows if they are not all selected; otherwise clear selection. */
-     masterToggle() {
-       if (this.isAllSelected()) {
+    masterToggle() {
+      if (this.isAllSelected()) {
          this.selection.clear();
          return;
-       }
-       this.selection.select(...this.dataSource.data);
-     }
+      }
+      this.selection.select(...this.dataSource.data);
+    }
  
    ngAfterViewInit(): void {
        this.dataSource.sort = this.sort;
        this.dataSource.paginator = this.paginator;
    }
- 
+    
    addDriver(){
      this.dialog.open(AddDriversComponent, {
        width: '600px',

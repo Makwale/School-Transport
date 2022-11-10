@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
   signinForm: FormGroup;
   isCreated: boolean = false;
 
-  constructor(private as: AuthService, private dbs: DatabaseService, private router: Router,
+  constructor(
+    private as: AuthService, private dbs: DatabaseService, private router: Router,
     private acs: AccountService) { }
 
   ngOnInit(): void {

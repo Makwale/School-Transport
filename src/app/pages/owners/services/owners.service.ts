@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
-import { ADD_DRIVER, DELETE_DRIVER, GET_DRIVERS, GET_OWNERS, UPDATE_DRIVER } from '../graphql/owners.graphql';
+import { ADD_DRIVER, ADD_VEHICLE, DELETE_DRIVER, GET_DRIVERS, GET_OWNERS, GET_VEHICLES, UPDATE_DRIVER, UPDATE_VEHICLE } from '../graphql/owners.graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,7 @@ import { ADD_DRIVER, DELETE_DRIVER, GET_DRIVERS, GET_OWNERS, UPDATE_DRIVER } fro
 export class OwnersService {
   ownersQueryRef: QueryRef<any>;
   driversQueryRef: QueryRef<any>;
+  vehiclesQueryRef: QueryRef<any>;
   constructor(
     private apollo: Apollo
   ) { }
@@ -53,6 +54,37 @@ export class OwnersService {
       variables: {
         id,
         driver
+      }
+    });
+  }
+
+  getVehicles(id: string){
+    this.vehiclesQueryRef = this.apollo.watchQuery({
+      query: GET_VEHICLES,
+      variables: {
+        id
+      },
+      fetchPolicy: 'network-only'
+    });
+
+    return this.vehiclesQueryRef.valueChanges;
+  }
+
+  addVehicle(vehicle: any){
+    return this.apollo.mutate({
+      mutation: ADD_VEHICLE,
+      variables: {
+        vehicle
+      }
+    });
+  }
+
+  updateVehicle(vehicle: any, id: string){
+    return this.apollo.mutate({
+      mutation: UPDATE_VEHICLE,
+      variables: {
+        id,
+        vehicle
       }
     })
   }

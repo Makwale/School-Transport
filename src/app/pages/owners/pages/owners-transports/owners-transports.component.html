@@ -1,1 +1,91 @@
-<p>owners-transports works!</p>
+<div class="container-fluid mt-5">
+    <div class="row no-gutters">
+        <button (click)="addVehicle()" class="ml-auto" color="primary" mat-fab>
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div class="form-group">
+        <label>Filter vehicle</label>
+        <input (keydown)="searchDrivers()" [formControl]="searchControl" class="form-control" placeholder="Enter vehicle info">
+    </div>
+    <mat-progress-bar *ngIf="isLoadingData" mode="buffer"></mat-progress-bar>
+      <div class="card" [hidden]="isLoadingData">
+        <div class="card-body">
+            <div>
+                <table mat-table [dataSource]="dataSource" matSort>
+                  <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                        [aria-label]="checkboxLabel()">
+                      </mat-checkbox>
+                      <button (click)="generateReport()" class="ml-2 p-0" [disabled]="!selection.hasValue()"  mat-icon-button>
+                        <span class="material-icons">
+                            cloud_download
+                        </span>
+                      </button>
+                     </th>
+                    <td mat-cell *matCellDef="let row"> 
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)"
+                                  [aria-label]="checkboxLabel(row)">
+                    </mat-checkbox> 
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="make">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Make </th>
+                    <td mat-cell *matCellDef="let row"> {{getMake(row.make).name}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="model">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Model </th>
+                    <td mat-cell *matCellDef="let row"> {{getModelMake(row.make, row.model)?.name}} </td>
+                  </ng-container>
+              
+
+                  <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                    <td mat-cell *matCellDef="let row"> {{getType(row.type).name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="regno">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Reg No </th>
+                    <td mat-cell *matCellDef="let row"> {{row.regno}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="capacity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Capacity </th>
+                    <td mat-cell *matCellDef="let row"> {{row.capacity}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+                    <td mat-cell *matCellDef="let row"> 
+                        <button (click)="editVehicle(row)" mat-icon-button>
+                            <span class="material-icons text-primary">
+                                edit
+                            </span>
+                        </button>
+                        <button (click)="deleteVehicle(row)" mat-icon-button>
+                            <span class="material-icons text-danger">
+                                delete
+                            </span>
+                        </button>
+                        
+                    </td>
+                  </ng-container>
+              
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              
+                  <!-- Row shown when there is no matching data. -->
+                </table>
+              
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+              </div>
+        </div>
+      </div>
+</div>
