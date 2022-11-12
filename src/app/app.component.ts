@@ -60,19 +60,19 @@ export class AppComponent implements OnInit {
     }
 
     localStorage.setItem("token", "");
-    Auth.currentAuthenticatedUser().then(results => {
+    // Auth.currentAuthenticatedUser().then(results => {
 
-      if (results) {
-        console.log(results);
-        this.dbs.getUser('').subscribe(response => {
-          console.log(response.data);
-          this.as.user = response.data.user[0];
-          this.acs.loginStatus = true;
-        })
-      }
-    }, reason => {
+    //   if (results) {
+    //     console.log(results);
+    //     this.dbs.getUser('').subscribe(response => {
+    //       console.log(response.data);
+    //       this.as.user = response.data.user[0];
+    //       this.acs.loginStatus = true;
+    //     })
+    //   }
+    // }, reason => {
 
-    })
+    // })
 
   }
 }

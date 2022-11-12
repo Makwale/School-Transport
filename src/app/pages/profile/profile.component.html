@@ -27,6 +27,16 @@
                           </ng-container>
                         </div>
                         <div class="form-group">
+                          <label for="exampleInputPassword1">Phone</label>
+                          <input formControlName="phone" type="text" class="form-control" placeholder="Enter phone" 
+                          [ngClass]="{ 'is-invalid': isInvalid('phone'), 'is-valid': isValid('phone') }">
+                          <ng-container *ngFor="let validation of validationMessages.required">
+                            <div class="form-text invalid-feedback" *ngIf="hasError('phone', validation.type)">
+                              {{ validation.message }}
+                            </div>
+                          </ng-container>
+                        </div>
+                        <div class="form-group">
                           <label for="exampleInputPassword1">Email</label>
                           <input formControlName="email" type="email" disabled class="form-control" placeholder="Enter email"
                           >

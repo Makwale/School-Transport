@@ -27,6 +27,7 @@ query GetUser($id: uuid!) {
     name
     surname
     email
+    phone
     role
   }
   owner: vehicle_owner_by_pk(id: $id) {
@@ -35,6 +36,7 @@ query GetUser($id: uuid!) {
     surname
     email
     role
+    phone
     vehicles {
       capacity
       availableSeats: available_seats

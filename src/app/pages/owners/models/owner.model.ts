@@ -17,6 +17,7 @@ export interface Vehicle{
     capacity: number;
     availableSeats: number;
     type: string;
+    driverId: string;
 }
 
 export interface Driver{

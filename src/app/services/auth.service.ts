@@ -24,17 +24,22 @@ export class AuthService {
   }
 
   updateUser(id: string, data: any){
+    const user = data;
+    const owner = data;
     return this.apollo.mutate({
-      mutation: gql`mutation UpdateUser($id: uuid, $data: user_set_input){
-        update_user(where: { id: { _eq: $id}}, _set: $data){
-          returning{
-            id
-          }
+      mutation: gql`
+      mutation UpdateUser($id: uuid!, $user: user_set_input, $owner: vehicle_owner_set_input){
+        update_user_by_pk(pk_columns: {id: $id}, _set: $user){
+          id
+        }
+        update_vehicle_owner_by_pk(pk_columns: {id: $id}, _set: $owner){
+          id
         }
       }`,
       variables: {
         id,
-        data
+        user,
+        owner
       }
     });
   }

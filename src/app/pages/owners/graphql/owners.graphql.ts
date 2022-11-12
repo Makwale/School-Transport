@@ -47,13 +47,26 @@ mutation updateDriver($id: uuid!, $driver: driver_set_input!){
 
 export const GET_VEHICLES = gql`
 query GetVehicles($id: uuid) {
-  vehicle(where: {owner_id: {_eq: $id}}) {
+  vehicle(where: {_and: {owner_id: {_eq: $id}, deleted_at: {_is_null: true}}}) {
     id
     make
     model
     regno
     type
     capacity
+    schools: school_transports {
+      id: school_id
+    }
+    driverId: driver_id
+  }
+  driver(where: {_and: {deleted_at: {_is_null: true}, employer_id: {_eq: $id}}}) {
+    id
+    name
+    surname
+  }
+  school {
+    id
+    name
   }
 }
 `;
@@ -66,8 +79,25 @@ mutation AddVehicle($vehicle: vehicle_insert_input!){
 }`;
 
 export const UPDATE_VEHICLE = gql`
-mutation UpdateVehicle($id: uuid!, $vehicle: vehicle_set_input!) {
-  update_vehicle_by_pk(pk_columns: {id: $id}, _set: $vehicle){
+mutation UpdateVehicle($id: uuid!, $vehicle: vehicle_set_input!, $schools: [school_transport_insert_input!]!) {
+  delete_school_transport(where: {vehicle_id: {_eq: $id}}) {
+    returning {
+      id
+    }
+  }
+  update_vehicle_by_pk(pk_columns: {id: $id}, _set: $vehicle) {
     id
+  }
+  insert_school_transport(objects: $schools) {
+    returning {
+      id
+    }
+  }
+}`;
+
+export const DELETE_VEHICLE = gql`
+mutation DeleteVehicle($id: uuid!) {
+  update_vehicle_by_pk(pk_columns: {id: $id}, _set: {deleted_at: now}){
+		id
   }
 }`;

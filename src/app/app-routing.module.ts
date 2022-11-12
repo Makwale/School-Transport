@@ -27,15 +27,15 @@ const routes: Routes = [
     path: "admin",
     component: AdminLayoutComponent,
     children: [
-      {
-        path: '',
-        redirectTo: 'learners',
-        pathMatch: 'full',
-      },
-      {
-        path: 'learners',
-        component: LearnersComponent
-      },
+      // {
+      //   path: '',
+      //   redirectTo: 'learners',
+      //   pathMatch: 'full',
+      // },
+      // {
+      //   path: 'learners',
+      //   component: LearnersComponent
+      // },
       {
         path: 'schools',
         component: SchoolsComponent

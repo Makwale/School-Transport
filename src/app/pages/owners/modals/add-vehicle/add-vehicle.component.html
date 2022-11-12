@@ -3,7 +3,7 @@
     <form [formGroup]="vehicleForm">
         <div class="form-group">
             <label >Type</label>
-            <mat-select (selectionChange)="selectMake($event)" formControlName="type" placeholder="Select type" class="form-control"
+            <mat-select formControlName="type" placeholder="Select type" class="form-control"
             [ngClass]="{ 'is-invalid': isInvalid('type'), 'is-valid': isValid('type') }">
               <mat-option *ngFor="let type of types" [value]="type">
                 {{type.name}}

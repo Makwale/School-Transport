@@ -16,6 +16,8 @@ import swal from "sweetalert2";
 import { AddVehicleComponent } from '../../modals/add-vehicle/add-vehicle.component';
 import { EditVehicleComponent } from '../../modals/edit-vehicle/edit-vehicle.component';
 import { Router } from '@angular/router';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { School } from 'src/app/pages/learners/models/learner.model';
 
 @Component({
   selector: 'app-owners-transports',
@@ -36,6 +38,8 @@ export class OwnersTransportsComponent implements OnInit {
   model = [];
   modelOfMake = []
   types = [];
+  schools: School[];
+  drivers: Driver[];
   constructor(
     private acs: AccountService,
     public dialog: MatDialog,
@@ -97,6 +101,8 @@ export class OwnersTransportsComponent implements OnInit {
     this.isLoadingData = true;
     this.ownersService.getVehicles(this.acs.user?.id).subscribe(res => {
       this.vehicles = res.data.vehicle;
+      this.schools = res.data.school;
+      this.drivers = res.data.driver;
       console.log(res);
       this.dataSource.data = this.vehicles;
       this.dataSource.paginator = this.paginator;
@@ -154,17 +160,25 @@ export class OwnersTransportsComponent implements OnInit {
      })
    }
  
-   editVehicle(vehicle: Driver){
+   editVehicle(vehicle: Vehicle){
      const dialogRef = this.dialog.open(EditVehicleComponent, {
        width: '600px',
-       data: vehicle
+       data: {
+        vehicle,
+        schools: this.schools,
+        drivers: this.drivers
+      }
      });
+
+     dialogRef.afterClosed().subscribe(res => {
+      this.getVehicles();
+     })
    }
  
    async deleteVehicle(row: Driver){
      const results = await UtilsService.showDeleteAlert();
      if(results.isConfirmed){
-        this.ownersService.deleteDriver(row.id).subscribe(response => {
+        this.ownersService.deleteVehicle(row.id).subscribe(response => {
           swal.fire({
             title: "Successfully created",
             icon: "success",

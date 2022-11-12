@@ -31,27 +31,14 @@ export class ProfileComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.isLoadingData = true;
-    if(this.as.user){
-      this.userForm = this.fb.group({
-        name: [this.as.user?.name, [Validators.required]],
-        surname: [this.as.user?.surname, [Validators.required]],
-        email: [this.as.user?.email, [Validators.required]],
-        role: [this.as.user?.role, [Validators.required]],
-      });
+    this.userForm = this.fb.group({
+      name: [this.acs.user?.name, [Validators.required]],
+      surname: [this.acs.user?.surname, [Validators.required]],
+      email: [this.acs.user?.email, [Validators.required]],
+      phone: [this.acs.user?.phone, [Validators.required]],
+      role: [this.acs.user?.role, [Validators.required]],
+    });
       this.isLoadingData = false;
-    }else{
-      this.dbs.getUser().subscribe(response => {
-        this.as.user = response.data.user[0];
-        this.userForm = this.fb.group({
-          name: [this.as.user?.name, [Validators.required]],
-          surname: [this.as.user?.surname, [Validators.required]],
-          email: [this.as.user?.email, [Validators.required]],
-          role: [this.as.user?.role, [Validators.required]],
-        });
-        this.isLoadingData = false;
-        this.acs.loginStatus = true;
-      });
-    }
   }
 
   isInvalid(controlName: string) {
@@ -83,9 +70,10 @@ export class ProfileComponent implements OnInit, DoCheck {
       this.isUpdating = true;
       const data = {
         name: this.userForm.value.name,
-        surname: this.userForm.value.surname
+        surname: this.userForm.value.surname,
+        phone: this.userForm.value.phone
       }
-      this.as.updateUser(this.as.user.id, data).subscribe(response => {
+      this.as.updateUser(this.acs.user.id, data).subscribe(response => {
         this.isUpdating = false;
         swal.fire({
           title: "Successfully updated",

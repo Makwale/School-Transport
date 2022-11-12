@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
-import { ADD_DRIVER, ADD_VEHICLE, DELETE_DRIVER, GET_DRIVERS, GET_OWNERS, GET_VEHICLES, UPDATE_DRIVER, UPDATE_VEHICLE } from '../graphql/owners.graphql';
+import { ADD_DRIVER, ADD_VEHICLE, DELETE_DRIVER, DELETE_VEHICLE, GET_DRIVERS, GET_OWNERS, GET_VEHICLES, UPDATE_DRIVER, UPDATE_VEHICLE } from '../graphql/owners.graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -79,12 +79,22 @@ export class OwnersService {
     });
   }
 
-  updateVehicle(vehicle: any, id: string){
+  updateVehicle(vehicle: any, id: string, schools: any[]){
     return this.apollo.mutate({
       mutation: UPDATE_VEHICLE,
       variables: {
         id,
-        vehicle
+        vehicle,
+        schools
+      }
+    });
+  }
+
+  deleteVehicle(id: string){
+    return this.apollo.mutate({
+      mutation: DELETE_VEHICLE,
+      variables: {
+        id
       }
     })
   }

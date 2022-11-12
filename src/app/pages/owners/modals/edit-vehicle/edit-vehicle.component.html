@@ -3,7 +3,7 @@
     <form [formGroup]="vehicleForm">
         <div class="form-group">
             <label >Type</label>
-            <mat-select (selectionChange)="selectMake($event)" formControlName="type" placeholder="Select type" class="form-control"
+            <mat-select formControlName="type" placeholder="Select type" class="form-control"
             [ngClass]="{ 'is-invalid': isInvalid('type'), 'is-valid': isValid('type') }">
               <mat-option *ngFor="let type of types" [value]="type.value">
                 {{type.name}}
@@ -63,6 +63,24 @@
             </div>
           </ng-container>
         </div>
+        <div class="form-group">
+          <label >Driver</label>
+          <mat-select formControlName="driver" placeholder="Select driver" class="form-control"
+          >
+            <mat-option *ngFor="let driver of drivers" [value]="driver.id">
+              {{driver.name}} {{driver.surname}}
+            </mat-option>
+          </mat-select>
+      </div>
+        <div class="form-group">
+          <label >Schools</label>
+          <mat-select multiple formControlName="schools" placeholder="Select schools" class="form-control"
+          >
+            <mat-option *ngFor="let school of schools" [value]="school.id">
+              {{school.name}}
+            </mat-option>
+          </mat-select>
+      </div>
       </form>
 </div>
 <div mat-dialog-actions align="end">

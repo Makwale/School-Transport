@@ -5,7 +5,8 @@ import { MatSelectChange } from '@angular/material/select';
 import { AccountService } from 'src/app/services/account.service';
 import { OwnersService } from '../../services/owners.service';
 import swal from "sweetalert2";
-import { Vehicle } from '../../models/owner.model';
+import { Driver, Vehicle } from '../../models/owner.model';
+import { School } from 'src/app/pages/schools/models/school.model';
 
 @Component({
   selector: 'app-edit-vehicle',
@@ -25,22 +26,27 @@ export class EditVehicleComponent implements OnInit {
   model = [];
   modelOfMake = []
   types = [];
+  schools: School[];
+  drivers: Driver[];
   constructor(
     private ownerService: OwnersService,
     private fb: FormBuilder,
     private dialog: MatDialog,
     private acs: AccountService,
-    @Inject(MAT_DIALOG_DATA) public data: Vehicle,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogReg: MatDialogRef<EditVehicleComponent>
   ) { }
 
   ngOnInit(): void {
+    console.log(this.data);
     this.vehicleForm = this.fb.group({
-      type: [this.data.type, [Validators.required]],
-      make: [this.data.make, [Validators.required]],
-      model: [this.data.model, [Validators.required]],
-      regno: [this.data.regno, [Validators.required]],
-      capacity: [this.data.capacity, [Validators.required]],
+      type: [this.data.vehicle.type, [Validators.required]],
+      make: [this.data.vehicle.make, [Validators.required]],
+      model: [this.data.vehicle.model, [Validators.required]],
+      regno: [this.data.vehicle.regno, [Validators.required]],
+      capacity: [this.data.vehicle.capacity, [Validators.required]],
+      schools: [this.data.vehicle.schools.map(school => school.id)],
+      driver: [this.data.vehicle.driverId],
     });
 
 
@@ -84,7 +90,9 @@ export class EditVehicleComponent implements OnInit {
         ]
       }
     ];
-    this.modelOfMake = this.make.find(m => m.value === this.data.make).models
+    this.modelOfMake = this.make.find(m => m.value === this.data.vehicle.make).models;
+    this.schools = this.data.schools;
+    this.drivers = this.data.drivers;
   }
 
   addSchool(){
@@ -96,16 +104,24 @@ export class EditVehicleComponent implements OnInit {
       model: this.vehicleForm.value.model,
       regno: this.vehicleForm.value.regno,
       capacity: this.vehicleForm.value.capacity,
+      driver_id: this.vehicleForm.value.driver
     }
+
+    const schools = this.vehicleForm.value.schools.map(id => {
+      return {
+        school_id: id,
+        vehicle_id: this.data.vehicle.id
+      }
+    });
+    console.log(this.vehicleForm.value);
     if(this.vehicleForm.valid){
       this.isLoading = true;
-      this.ownerService.updateVehicle(data, this.data.id).subscribe(response => {
+      this.ownerService.updateVehicle(data, this.data.vehicle.id, schools).subscribe( response => {
         this.isLoading = false;
         swal.fire({
           title: "Successfully updated",
           icon: "success",
         });
-        this.dialogReg.close({res: true});
       }, error => {
         swal.fire({
           title: error.message,
