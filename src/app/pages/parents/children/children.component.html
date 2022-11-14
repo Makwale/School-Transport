@@ -1,13 +1,12 @@
 <div class="container-fluid mt-5">
     <div class="row no-gutters">
-        <!-- <button (click)="addParkingLot()" class="ml-auto text-primary" mat-flat-button style="width: fit-content;">Add <span class="ml-1 text-primary material-icons">
-            add
-            </span>
-        </button> -->
+        <button (click)="addChild()" class="ml-auto" color="primary" mat-fab>
+            <mat-icon>add</mat-icon>
+        </button>
     </div>
     <div class="form-group">
-        <label>Filter learners</label>
-        <input (keydown)="searchLearners()" [formControl]="searchControl" class="form-control" placeholder="Enter learner info">
+        <label>Filter children</label>
+        <input (keydown)="searchChildren()" [formControl]="searchControl" class="form-control" placeholder="Enter child info">
     </div>
     <mat-progress-bar *ngIf="isLoadingData" mode="buffer"></mat-progress-bar>
       <div class="card" [hidden]="isLoadingData">
@@ -47,20 +46,30 @@
                   </ng-container>
               
 
+                  <ng-container matColumnDef="school">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> School </th>
+                    <td mat-cell *matCellDef="let row"> {{row.learnerSchool[0].school.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="level">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Level </th>
+                    <td mat-cell *matCellDef="let row"> {{row.learnerSchool[0].level === 'primary' ? 'Primary' : 'Secondary'}} </td>
+                  </ng-container>
+
                   <ng-container matColumnDef="grade">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Grade </th>
-                    <td mat-cell *matCellDef="let row"> {{row.school[0].grade}} </td>
+                    <td mat-cell *matCellDef="let row"> {{row.learnerSchool[0].grade}} </td>
                   </ng-container>
 
                   <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
                     <td mat-cell *matCellDef="let row"> 
-                        <button (click)="editParkingLot(row)" mat-icon-button>
+                        <button (click)="editChild(row)" mat-icon-button>
                             <span class="material-icons text-primary">
                                 edit
                             </span>
                         </button>
-                        <button (click)="deleteParking(row)" mat-icon-button>
+                        <button (click)="deleteChild(row)" mat-icon-button>
                             <span class="material-icons text-danger">
                                 delete
                             </span>

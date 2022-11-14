@@ -42,12 +42,15 @@ import { EditSchoolComponent } from "./pages/schools/modals/edit-school/edit-sch
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import { OwnersComponent } from "./pages/owners/owners.component";
-import { OwnerDriversComponent } from "./pages/owners/pages/owner-drivers/owner-drivers.component";
-import { OwnersTransportsComponent } from "./pages/owners/pages/owners-transports/owners-transports.component";
-import { AddDriversComponent } from "./pages/owners/modals/add-drivers/add-drivers.component";
-import { AddVehicleComponent } from "./pages/owners/modals/add-vehicle/add-vehicle.component";
-import { EditDriverComponent } from "./pages/owners/modals/edit-driver/edit-driver.component";
-import { EditVehicleComponent } from "./pages/owners/modals/edit-vehicle/edit-vehicle.component";
+import { OwnerDriversComponent } from "./pages/owners/pages/owner/owner-drivers/owner-drivers.component";
+import { OwnersTransportsComponent } from "./pages/owners/pages/owner/owners-transports/owners-transports.component";
+import { AddDriversComponent } from "./pages/owners/modals/owner/add-drivers/add-drivers.component";
+import { AddVehicleComponent } from "./pages/owners/modals/owner/add-vehicle/add-vehicle.component";
+import { EditDriverComponent } from "./pages/owners/modals/owner/edit-driver/edit-driver.component";
+import { EditVehicleComponent } from "./pages/owners/modals/owner/edit-vehicle/edit-vehicle.component";
+import { ChildrenComponent } from "./pages/parents/children/children.component";
+import { AddChildComponent } from "./pages/parents/modals/add-child/add-child.component";
+import { EditChildComponent } from "./pages/parents/modals/edit-child/edit-child.component";
 
 @NgModule({
   declarations: [
@@ -73,7 +76,10 @@ import { EditVehicleComponent } from "./pages/owners/modals/edit-vehicle/edit-ve
     AddDriversComponent,
     AddVehicleComponent,
     EditDriverComponent,
-    EditVehicleComponent
+    EditVehicleComponent,
+    ChildrenComponent,
+    AddChildComponent,
+    EditChildComponent
   ],
   imports: [
     BrowserAnimationsModule,

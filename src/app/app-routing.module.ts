@@ -14,8 +14,9 @@ import { SchoolsComponent } from "./pages/schools/schools.component";
 import { TransportComponent } from "./pages/transport/transport.component";
 import { DriversComponent } from "./pages/drivers/drivers.component";
 import { OwnersComponent } from "./pages/owners/owners.component";
-import { OwnerDriversComponent } from "./pages/owners/pages/owner-drivers/owner-drivers.component";
-import { OwnersTransportsComponent } from "./pages/owners/pages/owners-transports/owners-transports.component";
+import { OwnerDriversComponent } from "./pages/owners/pages/owner/owner-drivers/owner-drivers.component";
+import { OwnersTransportsComponent } from "./pages/owners/pages/owner/owners-transports/owners-transports.component";
+import { ChildrenComponent } from "./pages/parents/children/children.component";
 const routes: Routes = [
 
   {
@@ -27,15 +28,15 @@ const routes: Routes = [
     path: "admin",
     component: AdminLayoutComponent,
     children: [
-      // {
-      //   path: '',
-      //   redirectTo: 'learners',
-      //   pathMatch: 'full',
-      // },
-      // {
-      //   path: 'learners',
-      //   component: LearnersComponent
-      // },
+      {
+        path: '',
+        redirectTo: 'learners',
+        pathMatch: 'full',
+      },
+      {
+        path: 'learners',
+        component: LearnersComponent
+      },
       {
         path: 'schools',
         component: SchoolsComponent
@@ -67,6 +68,10 @@ const routes: Routes = [
       {
         path: 'bookings',
         component: BookingsComponent
+      },
+      {
+        path: 'my-children',
+        component: ChildrenComponent
       },
       {
         path: 'profile',

@@ -1,0 +1,101 @@
+<h3 mat-dialog-title >Vehicle Information</h3>
+<div mat-dialog-content>
+    <form [formGroup]="childForm">
+        <div class="form-group">
+            <label>Name</label>
+            <input formControlName="name" type="text" class="form-control" placeholder="Enter name" 
+            [ngClass]="{ 'is-invalid': isInvalid('name'), 'is-valid': isValid('name') }">
+            <ng-container *ngFor="let validation of validationMessages.required">
+              <div class="form-text invalid-feedback" *ngIf="hasError('name', validation.type)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+        </div>
+        <div class="form-group">
+            <label>Surname</label>
+            <input formControlName="surname" type="text" class="form-control" placeholder="Enter surname" 
+            [ngClass]="{ 'is-invalid': isInvalid('surname'), 'is-valid': isValid('surname') }">
+            <ng-container *ngFor="let validation of validationMessages.required">
+              <div class="form-text invalid-feedback" *ngIf="hasError('surname', validation.type)">
+                {{ validation.message }}
+              </div>
+            </ng-container>
+        </div>
+        <div class="form-group">
+          <label >Schools</label>
+          <mat-select formControlName="schools" placeholder="Select schools" class="form-control"
+          >
+            <mat-option *ngFor="let school of schools" [value]="school.id">
+              {{school.name}}
+            </mat-option>
+          </mat-select>
+      </div>
+        <div class="form-group">
+          <label >Level</label>
+          <mat-select (selectionChange)="selectLevel($event)" formControlName="levels" placeholder="Select level" class="form-control"
+          >
+            <mat-option  *ngFor="let level of levels" [value]="level.value">
+              {{level.name}}
+            </mat-option>
+          </mat-select>
+      </div>
+        <div class="form-group">
+          <label >Grade</label>
+          <mat-select formControlName="grade" placeholder="Select grade" class="form-control"
+          >
+            <mat-option *ngFor="let grade of grades" [value]="grade">
+              {{grade}}
+            </mat-option>
+          </mat-select>
+      </div>
+      <div class="form-group">
+        <label for="streetName">Street Name</label>
+        <input formControlName="streetName" type="text" class="form-control" placeholder="Enter street name" 
+        [ngClass]="{ 'is-invalid': isInvalid('streetName'), 'is-valid': isValid('streetName') }">
+        <ng-container *ngFor="let validation of validationMessages.required">
+          <div class="form-text invalid-feedback" *ngIf="hasError('streetName', validation.type)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+    </div>
+    <div class="form-group">
+      <label for="suburb">Suburb</label>
+      <input formControlName="suburb" type="text" class="form-control" placeholder="Enter suburb" 
+      [ngClass]="{ 'is-invalid': isInvalid('suburb'), 'is-valid': isValid('suburb') }">
+      <ng-container *ngFor="let validation of validationMessages.required">
+        <div class="form-text invalid-feedback" *ngIf="hasError('suburb', validation.type)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    <div class="form-group">
+      <label for="city">City</label>
+      <input formControlName="city" type="text" class="form-control" placeholder="Enter city" 
+      [ngClass]="{ 'is-invalid': isInvalid('city'), 'is-valid': isValid('city') }">
+      <ng-container *ngFor="let validation of validationMessages.required">
+        <div class="form-text invalid-feedback" *ngIf="hasError('city', validation.type)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+    <div class="form-group">
+      <label for="postalCode">Postal Code</label>
+      <input formControlName="postalCode" type="number" class="form-control" placeholder="Enter postal code" 
+      [ngClass]="{ 'is-invalid': isInvalid('postalCode'), 'is-valid': isValid('postalCode') }">
+      <ng-container *ngFor="let validation of validationMessages.required">
+        <div class="form-text invalid-feedback" *ngIf="hasError('postalCode', validation.type)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+      </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+  <button (click)="addChild()" mat-button  class="text-primary">
+    <span *ngIf="!isLoading">Save</span>
+    <div *ngIf="isLoading" class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    </button>
+</div>

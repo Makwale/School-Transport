@@ -8,15 +8,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import jsPDF from 'jspdf';
 import { AccountService } from 'src/app/services/account.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
-import { AddDriversComponent } from '../../modals/add-drivers/add-drivers.component';
-import { EditDriverComponent } from '../../modals/edit-driver/edit-driver.component';
-import { Driver, Vehicle } from '../../models/owner.model';
-import { OwnersService } from '../../services/owners.service';
+import { Driver, Vehicle } from '../../../models/owner.model';
+import { OwnersService } from '../../../services/owners.service';
 import swal from "sweetalert2";
-import { AddVehicleComponent } from '../../modals/add-vehicle/add-vehicle.component';
-import { EditVehicleComponent } from '../../modals/edit-vehicle/edit-vehicle.component';
+import { AddVehicleComponent } from '../../../modals/owner/add-vehicle/add-vehicle.component';
+import { EditVehicleComponent } from '../../../modals/owner/edit-vehicle/edit-vehicle.component';
 import { Router } from '@angular/router';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { School } from 'src/app/pages/learners/models/learner.model';
 
 @Component({
@@ -40,6 +37,7 @@ export class OwnersTransportsComponent implements OnInit {
   types = [];
   schools: School[];
   drivers: Driver[];
+  userId: string;
   constructor(
     private acs: AccountService,
     public dialog: MatDialog,
@@ -48,6 +46,7 @@ export class OwnersTransportsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.userId = this.acs.user.id;
     this.searchControl = new FormControl();
     this.dataSource = new MatTableDataSource(this.vehicles);
     this.types = [
@@ -99,11 +98,10 @@ export class OwnersTransportsComponent implements OnInit {
 
   getVehicles(){
     this.isLoadingData = true;
-    this.ownersService.getVehicles(this.acs.user?.id).subscribe(res => {
+    this.ownersService.getVehicles(this.userId).subscribe(res => {
       this.vehicles = res.data.vehicle;
       this.schools = res.data.school;
       this.drivers = res.data.driver;
-      console.log(res);
       this.dataSource.data = this.vehicles;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

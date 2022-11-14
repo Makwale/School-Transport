@@ -7,38 +7,52 @@ import { MatTableDataSource } from '@angular/material/table';
 import jsPDF from 'jspdf';
 import { AccountService } from 'src/app/services/account.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
-import { Driver } from '../drivers/models/driver.model';
-import { OwnersService } from './services/owners.service';
+import { Driver } from '../../../models/owner.model';
+import { MatDialog } from '@angular/material/dialog';
+import { AddDriversComponent } from '../../../modals/owner/add-drivers/add-drivers.component';
+import { OwnersService } from '../../../services/owners.service';
+import { EditDriverComponent } from '../../../modals/owner/edit-driver/edit-driver.component';
+import swal from "sweetalert2";
 
 @Component({
-  selector: 'app-owners',
-  templateUrl: './owners.component.html',
-  styleUrls: ['./owners.component.scss']
+  selector: 'app-owner-drivers',
+  templateUrl: './owner-drivers.component.html',
+  styleUrls: ['./owner-drivers.component.scss']
 })
-export class OwnersComponent implements OnInit {
-
+export class OwnerDriversComponent implements OnInit {
   drivers: Driver[] = [];
-  displayedColumns: string[] = ['name', 'surname', 'phone', 'email'];
+  displayedColumns: string[] = ['name', 'surname', 'email', 'phone', 'email', 'actions'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   searchControl: FormControl;
   isLoadingData: boolean;
   selection = new SelectionModel<any>(true, []);
-  constructor(public ownersService: OwnersService,
-    private acs: AccountService) { }
+  constructor(
+    private acs: AccountService,
+    public dialog: MatDialog,
+    public ownersService: OwnersService
+  ) { }
 
   ngOnInit(): void {
-    this.isLoadingData = true;
-    this.drivers = this.acs.user.drivers;
-    this.searchControl = new FormControl(null);
+    this.searchControl = new FormControl();
     this.dataSource = new MatTableDataSource(this.drivers);
-    this.isLoadingData = false;
+    this.getDrivers();
   }
-
 
   searchDrivers(){
     this.dataSource.filter = this.searchControl.value;
+  }
+
+  getDrivers(){
+    this.isLoadingData = true;
+    this.ownersService.getDrivers(this.acs.user?.id).subscribe(res => {
+      this.drivers = res.data.driver;
+      this.dataSource.data = this.drivers;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.isLoadingData = false;
+    })
   }
  
  
@@ -59,36 +73,47 @@ export class OwnersComponent implements OnInit {
      }
    
      /** Selects all rows if they are not all selected; otherwise clear selection. */
-     masterToggle() {
-       if (this.isAllSelected()) {
+    masterToggle() {
+      if (this.isAllSelected()) {
          this.selection.clear();
          return;
-       }
-       this.selection.select(...this.dataSource.data);
-     }
+      }
+      this.selection.select(...this.dataSource.data);
+    }
  
    ngAfterViewInit(): void {
        this.dataSource.sort = this.sort;
        this.dataSource.paginator = this.paginator;
    }
- 
+    
    addDriver(){
-    //  this.dialog.open(CreateParkingLotComponent, {
-    //    width: '400px',
-    //  })
+     this.dialog.open(AddDriversComponent, {
+       width: '600px',
+     })
    }
  
-   editParkingLot(parkingLot: Driver){
-    //  this.dialog.open(EditParkingLotComponent, {
-    //    width: '400px',
-    //    data: parkingLot
-    //  })
+   editDriver(driver: Driver){
+     this.dialog.open(EditDriverComponent, {
+       width: '600px',
+       data: driver
+     })
    }
  
-   async deleteParking(row: Driver){
+   async deleteDriver(row: Driver){
      const results = await UtilsService.showDeleteAlert();
      if(results.isConfirmed){
-      
+        this.ownersService.deleteDriver(row.id).subscribe(response => {
+          swal.fire({
+            title: "Successfully created",
+            icon: "success",
+          });
+          this.ownersService.driversQueryRef.refetch();
+        }, error => {
+          swal.fire({
+            title: error.message,
+            icon: "error",
+          });
+      });
      }
    }
  
@@ -112,4 +137,5 @@ export class OwnersComponent implements OnInit {
      }
      doc?.save('Parking Lot Report.pdf');
    }
+
 }

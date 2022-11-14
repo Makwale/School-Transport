@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { SchoolsService } from 'src/app/pages/schools/services/schools.service';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AccountService } from 'src/app/services/account.service';
+import { OwnersService } from '../../../services/owners.service';
 import swal from "sweetalert2";
-import { OwnersService } from '../../services/owners.service';
-
+import { School } from 'src/app/pages/learners/models/learner.model';
+import { Driver } from '../../../models/owner.model';
 @Component({
-  selector: 'app-add-drivers',
-  templateUrl: './add-drivers.component.html',
-  styleUrls: ['./add-drivers.component.scss']
+  selector: 'app-edit-driver',
+  templateUrl: './edit-driver.component.html',
+  styleUrls: ['./edit-driver.component.scss']
 })
-export class AddDriversComponent implements OnInit {
-
+export class EditDriverComponent implements OnInit {
   isLoading: boolean;
   driverForm: FormGroup;
   validationMessages = {
@@ -25,19 +24,21 @@ export class AddDriversComponent implements OnInit {
     private ownerService: OwnersService,
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private acs: AccountService
+    private acs: AccountService,
+    @Inject(MAT_DIALOG_DATA) public data: Driver
   ) { }
 
   ngOnInit(): void {
+
     this.driverForm = this.fb.group({
-      name: [null, [Validators.required]],
-      surname: [null, [Validators.required]],
-      email: [null, [Validators.required]],
-      phone: [null, [Validators.required]],
+      name: [this.data.name, [Validators.required]],
+      surname: [this.data.surname, [Validators.required]],
+      email: [this.data.email, [Validators.required]],
+      phone: [this.data.phone, [Validators.required]],
     });
   }
 
-  addSchool(){
+  addDriver(){
     this.driverForm.markAllAsTouched();
     this.driverForm.markAsDirty();
     const data = {
@@ -49,11 +50,10 @@ export class AddDriversComponent implements OnInit {
     }
     if(this.driverForm.valid){
       this.isLoading = true;
-      this.ownerService.addDriver(data).subscribe(response => {
+      this.ownerService.updateDriver(this.data.id, data).subscribe(response => {
         this.isLoading = false;
-        this.driverForm.reset();
         swal.fire({
-          title: "Successfully created",
+          title: "Successfully updated",
           icon: "success",
         });
         this.ownerService.driversQueryRef.refetch();

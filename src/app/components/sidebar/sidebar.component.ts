@@ -125,6 +125,16 @@ export class SidebarComponent implements OnInit {
           isCollapsed: true,
         },
       ]
+    }else if(this.acs.user.role === 'parent'){
+      this.menuItems = [
+        {
+          path: "/admin/my-children",
+          title: "Children",
+          type: "link",
+          icontype: "family_restroom",
+          isCollapsed: true,
+        },
+      ]
     }
 
     this.router.events.subscribe(event => {

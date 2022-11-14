@@ -31,6 +31,8 @@ export class AdminLayoutComponent implements OnInit {
   ngOnInit() {
     if(this.acs.user?.role === 'vehicle_owner'){
       this.router.navigate(['admin/my-transports']);
+    }else if(this.acs.user.role === 'parent'){
+      this.router.navigate(['admin/my-children']);
     }
   }
 }

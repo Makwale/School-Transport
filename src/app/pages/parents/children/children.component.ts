@@ -1,54 +1,63 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import jsPDF from 'jspdf';
 import { AccountService } from 'src/app/services/account.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
-import { Driver } from '../../models/owner.model';
-import { MatDialog } from '@angular/material/dialog';
-import { AddDriversComponent } from '../../modals/add-drivers/add-drivers.component';
-import { OwnersService } from '../../services/owners.service';
-import { EditDriverComponent } from '../../modals/edit-driver/edit-driver.component';
+import { Driver } from '../../drivers/models/driver.model';
+import { AddDriversComponent } from '../../owners/modals/owner/add-drivers/add-drivers.component';
+import { EditDriverComponent } from '../../owners/modals/owner/edit-driver/edit-driver.component';
+import { OwnersService } from '../../owners/services/owners.service';
 import swal from "sweetalert2";
+import { Child } from '../models/parent.model';
+import { ParentService } from '../services/parent.service';
+import { AddChildComponent } from '../modals/add-child/add-child.component';
+import { EditChildComponent } from '../modals/edit-child/edit-child.component';
+import { School } from '../../learners/models/learner.model';
 
 @Component({
-  selector: 'app-owner-drivers',
-  templateUrl: './owner-drivers.component.html',
-  styleUrls: ['./owner-drivers.component.scss']
+  selector: 'app-children',
+  templateUrl: './children.component.html',
+  styleUrls: ['./children.component.scss']
 })
-export class OwnerDriversComponent implements OnInit {
-  drivers: Driver[] = [];
-  displayedColumns: string[] = ['name', 'surname', 'email', 'phone', 'email', 'actions'];
+export class ChildrenComponent implements OnInit {
+
+  children: Child[] = [];
+  displayedColumns: string[] = ['name', 'surname', 'school', 'level', 'grade', 'actions'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   searchControl: FormControl;
   isLoadingData: boolean;
   selection = new SelectionModel<any>(true, []);
+  schools: School[];
   constructor(
     private acs: AccountService,
     public dialog: MatDialog,
-    public ownersService: OwnersService
+    public parentService: ParentService
   ) { }
 
   ngOnInit(): void {
     this.searchControl = new FormControl();
-    this.dataSource = new MatTableDataSource(this.drivers);
-    this.getDrivers();
+    this.dataSource = new MatTableDataSource(this.children);
+    this.getChildren();
   }
 
-  searchDrivers(){
+  searchChildren(){
     this.dataSource.filter = this.searchControl.value;
   }
 
-  getDrivers(){
+  getChildren(){
     this.isLoadingData = true;
-    this.ownersService.getDrivers(this.acs.user?.id).subscribe(res => {
-      this.drivers = res.data.driver;
-      this.dataSource.data = this.drivers;
+    this.parentService.getChildren(this.acs.user?.id).subscribe(res => {
+      console.log(res);
+      this.children = res.data.learner;
+      this.dataSource.data = this.children;
+      this.schools = res.data.school;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoadingData = false;
@@ -86,35 +95,38 @@ export class OwnerDriversComponent implements OnInit {
        this.dataSource.paginator = this.paginator;
    }
     
-   addDriver(){
-     this.dialog.open(AddDriversComponent, {
+   addChild(){
+     this.dialog.open(AddChildComponent, {
        width: '600px',
+       data: {
+        schools: this.schools
+       }
      })
    }
  
-   editDriver(driver: Driver){
-     this.dialog.open(EditDriverComponent, {
+   editChild(child: Child){
+     this.dialog.open(EditChildComponent, {
        width: '600px',
-       data: driver
+       data: {child, schools: this.schools}
      })
    }
  
-   async deleteDriver(row: Driver){
+   async deleteChild(row: Child){
      const results = await UtilsService.showDeleteAlert();
-     if(results.isConfirmed){
-        this.ownersService.deleteDriver(row.id).subscribe(response => {
-          swal.fire({
-            title: "Successfully created",
-            icon: "success",
-          });
-          this.ownersService.driversQueryRef.refetch();
-        }, error => {
-          swal.fire({
-            title: error.message,
-            icon: "error",
-          });
-      });
-     }
+    //  if(results.isConfirmed){
+    //     this.parentService.deleteDriver(row.id).subscribe(response => {
+    //       swal.fire({
+    //         title: "Successfully created",
+    //         icon: "success",
+    //       });
+    //       this.parentService.driversQueryRef.refetch();
+    //     }, error => {
+    //       swal.fire({
+    //         title: error.message,
+    //         icon: "error",
+    //       });
+    //   });
+    //  }
    }
  
    generateReport(){
