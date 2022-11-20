@@ -200,7 +200,19 @@ const UPDATE_USER_ADDRESS = gql`mutation UpdateAddress($userid: String, $homeAdd
     }
   }
 }
-`
+`;
+
+const GET_OWNERS = gql`
+query GetOwners{
+  owners: vehicle_owner{
+    name
+    surname
+    email
+    phone
+  }
+}`;
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -365,4 +377,9 @@ export class DatabaseService {
     });
   }
 
+  getOwners(){
+    return this.apollo.watchQuery({
+      query: GET_OWNERS
+    });
+  }
 }

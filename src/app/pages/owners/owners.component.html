@@ -7,7 +7,7 @@
     </div>
     <div class="form-group">
         <label>Filter owners</label>
-        <input (keydown)="searchDrivers()" [formControl]="searchControl" class="form-control" placeholder="Enter owner info">
+        <input (keydown)="searchOwners()" [formControl]="searchControl" class="form-control" placeholder="Enter owner info">
     </div>
     <mat-progress-bar *ngIf="isLoadingData" mode="buffer"></mat-progress-bar>
       <div class="card" [hidden]="isLoadingData">

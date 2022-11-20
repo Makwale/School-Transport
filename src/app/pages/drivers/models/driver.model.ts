@@ -5,3 +5,11 @@ export interface Driver{
     email: string;
     phone: string;
 }
+
+export interface Owner{
+    id: string;
+    name: string;
+    surname: string;
+    email: string;
+    phone: string;
+}

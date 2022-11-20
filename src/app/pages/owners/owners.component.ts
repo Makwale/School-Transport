@@ -6,8 +6,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import jsPDF from 'jspdf';
 import { AccountService } from 'src/app/services/account.service';
+import { DatabaseService } from 'src/app/services/database.service';
 import { UtilsService } from 'src/app/shared/services/utils.service';
 import { Driver } from '../drivers/models/driver.model';
+import { Owner } from './models/owner.model';
 import { OwnersService } from './services/owners.service';
 
 @Component({
@@ -17,7 +19,7 @@ import { OwnersService } from './services/owners.service';
 })
 export class OwnersComponent implements OnInit {
 
-  drivers: Driver[] = [];
+  owners: Owner[] = [];
   displayedColumns: string[] = ['name', 'surname', 'phone', 'email'];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -25,19 +27,32 @@ export class OwnersComponent implements OnInit {
   searchControl: FormControl;
   isLoadingData: boolean;
   selection = new SelectionModel<any>(true, []);
-  constructor(public ownersService: OwnersService,
-    private acs: AccountService) { }
+  constructor(
+    public ownersService: OwnersService,
+    private acs: AccountService,
+    private ds: DatabaseService) { }
 
   ngOnInit(): void {
     this.isLoadingData = true;
-    this.drivers = this.acs.user.drivers;
     this.searchControl = new FormControl(null);
-    this.dataSource = new MatTableDataSource(this.drivers);
-    this.isLoadingData = false;
+    this.dataSource = new MatTableDataSource(this.owners);
+    this.getOwners();
   }
 
 
-  searchDrivers(){
+  getOwners(){
+    this.ds.getOwners().valueChanges.subscribe(res => {
+      console.log(res);
+      this.owners = (res.data as any).owners;
+      this.dataSource.data = this.owners;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.isLoadingData = false;
+    });
+  }
+
+
+  searchOwners(){
     this.dataSource.filter = this.searchControl.value;
   }
  

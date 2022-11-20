@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
+import { GET_OWNERS } from '../../owners/graphql/owners.graphql';
 import { GET_CHILDREN, INSERT_CHILD } from '../graphql/parent.graphql';
 
 @Injectable({
@@ -25,6 +26,10 @@ export class ParentService {
       variables: {
         child
       }
-    })
+    });
+  }
+
+  getTransport(){
+   
   }
 }
