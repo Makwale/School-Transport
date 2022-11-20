@@ -178,7 +178,7 @@ export class OwnersTransportsComponent implements OnInit {
      if(results.isConfirmed){
         this.ownersService.deleteVehicle(row.id).subscribe(response => {
           swal.fire({
-            title: "Successfully created",
+            title: "Successfully deleted",
             icon: "success",
           });
           this.ownersService.vehiclesQueryRef.refetch();
