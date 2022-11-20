@@ -3,6 +3,7 @@ import { gql } from "apollo-angular";
 export const GET_CHILDREN = gql`
 query GetChildren($id: uuid) {
   learner(where: {user_id: {_eq: $id}}) {
+    id
     name
     surname
     learnerSchool: learner_schools(where: {status: {_eq: "current_study"}}) {
@@ -33,4 +34,12 @@ query GetChildren($id: uuid) {
       id
     }
   }`;
+
+  export const UPDATE_CHILD = gql`
+  mutation UpdateChild($id: uuid!, $child: learner_set_input!){
+    update_learner_by_pk(pk_columns: {id: $id}, _set: $child){
+      id
+    }
+  }
+  `;
   

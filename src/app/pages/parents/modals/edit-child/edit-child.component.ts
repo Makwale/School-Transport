@@ -72,40 +72,33 @@ export class EditChildComponent implements OnInit {
     }
   }
 
-  addChild(){
+  updateChild(){
     this.childForm.markAllAsTouched();
     this.childForm.markAsDirty();
     const data = {
       name: this.childForm.value.name,
       surname: this.childForm.value.surname,
       user_id: this.acs.user.id,
-      location:  {
-        data: {
-          street_name: this.childForm.value.streetName,
-          suburb: this.childForm.value.suburb,
-          city: this.childForm.value.city,
-          postal_code: String(this.childForm.value.postalCode),
-        }
-      },
-      learner_schools: {
-        data: [
-          {
-            school_id: this.childForm.value.schools.id,
-            level: this.childForm.value.levels.value,
-            status: 'current_study',
-            grade: String(this.childForm.value.grade)
-          }
-        ]
-      }
-      
+    };
+    const location = {
+        street_name: this.childForm.value.streetName,
+        suburb: this.childForm.value.suburb,
+        city: this.childForm.value.city,
+        postal_code: String(this.childForm.value.postalCode),
+    };
+
+    const learner_schools = {
+          school_id: this.childForm.value.schools.id,
+          level: this.childForm.value.levels.value,
+          status: 'current_study',
+          grade: String(this.childForm.value.grade)
     }
-    console.log(data);
+
     if(this.childForm.valid){
       this.isLoading = true;
-      this.parentService.insertChild(data).subscribe( response => {
+      this.parentService.updateChild(this.data.child.id, data).subscribe( response => {
         this.isLoading = false;
         this.parentService.childrenQueryRef.refetch();
-        this.childForm.reset();
         swal.fire({
           title: "Successfully updated",
           icon: "success",
