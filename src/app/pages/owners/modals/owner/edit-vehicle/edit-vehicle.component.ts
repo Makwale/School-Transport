@@ -24,7 +24,7 @@ export class EditVehicleComponent implements OnInit {
   levels = [];
   make = [];
   model = [];
-  modelOfMake = []
+  modelOfMake = [];
   types = [];
   schools: School[];
   drivers: Driver[];
@@ -47,6 +47,8 @@ export class EditVehicleComponent implements OnInit {
       capacity: [this.data.vehicle.capacity, [Validators.required]],
       schools: [this.data.vehicle.schools.map(school => school.id)],
       driver: [this.data.vehicle.driverId],
+      lon: [(this.data.vehicle as Vehicle).locations[0]?.longitude, [Validators.required]],
+      lat: [(this.data.vehicle as Vehicle).locations[0]?.latitude, [Validators.required]],
     });
 
 
@@ -113,10 +115,15 @@ export class EditVehicleComponent implements OnInit {
         vehicle_id: this.data.vehicle.id
       }
     });
+    const location = {
+      latitude: this.vehicleForm.value.lat,
+      longitude: this.vehicleForm.value.lon,
+      vehicle_id:this.data.vehicle.id
+    }
     console.log(this.vehicleForm.value);
     if(this.vehicleForm.valid){
       this.isLoading = true;
-      this.ownerService.updateVehicle(data, this.data.vehicle.id, schools).subscribe( response => {
+      this.ownerService.updateVehicle(data, this.data.vehicle.id, schools, location).subscribe( response => {
         this.isLoading = false;
         swal.fire({
           title: "Successfully updated",

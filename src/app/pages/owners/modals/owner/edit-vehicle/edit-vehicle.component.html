@@ -72,7 +72,7 @@
             </mat-option>
           </mat-select>
       </div>
-        <div class="form-group">
+      <div class="form-group">
           <label >Schools</label>
           <mat-select multiple formControlName="schools" placeholder="Select schools" class="form-control"
           >
@@ -81,7 +81,27 @@
             </mat-option>
           </mat-select>
       </div>
-      </form>
+      <div class="form-group">
+        <label >Latitude</label>
+        <input formControlName="lat" type="text" class="form-control" placeholder="Enter latitude coordinates" 
+        [ngClass]="{ 'is-invalid': isInvalid('lat'), 'is-valid': isValid('lat') }">
+        <ng-container *ngFor="let validation of validationMessages.required">
+          <div class="form-text invalid-feedback" *ngIf="hasError('lat', validation.type)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <div class="form-group">
+        <label >Longitude</label>
+        <input formControlName="lon" type="text" class="form-control" placeholder="Enter longitude coordinates" 
+        [ngClass]="{ 'is-invalid': isInvalid('lon'), 'is-valid': isValid('lon') }">
+        <ng-container *ngFor="let validation of validationMessages.required">
+          <div class="form-text invalid-feedback" *ngIf="hasError('lon', validation.type)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+    </form>
 </div>
 <div mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Close</button>

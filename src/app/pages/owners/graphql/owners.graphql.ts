@@ -54,6 +54,11 @@ query GetVehicles($id: uuid) {
     regno
     type
     capacity
+    locations{
+      id
+      latitude
+      longitude
+    }
     schools: school_transports {
       id: school_id
     }
@@ -79,15 +84,28 @@ mutation AddVehicle($vehicle: vehicle_insert_input!){
 }`;
 
 export const UPDATE_VEHICLE = gql`
-mutation UpdateVehicle($id: uuid!, $vehicle: vehicle_set_input!, $schools: [school_transport_insert_input!]!) {
+mutation UpdateVehicle($id: uuid!, $vehicle: vehicle_set_input!, $schools: [school_transport_insert_input!]!, $location: location_insert_input!) {
+  
   delete_school_transport(where: {vehicle_id: {_eq: $id}}) {
     returning {
       id
     }
   }
+
+  delete_location(where: {vehicle_id: {_eq: $id}}) {
+    returning {
+      id
+    }
+  }
+  
+  insert_location_one(object: $location){
+    id
+  }
+  
   update_vehicle_by_pk(pk_columns: {id: $id}, _set: $vehicle) {
     id
   }
+  
   insert_school_transport(objects: $schools) {
     returning {
       id

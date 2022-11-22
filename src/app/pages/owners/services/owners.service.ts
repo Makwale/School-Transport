@@ -79,13 +79,14 @@ export class OwnersService {
     });
   }
 
-  updateVehicle(vehicle: any, id: string, schools: any[]){
+  updateVehicle(vehicle: any, id: string, schools: any[], location: any){
     return this.apollo.mutate({
       mutation: UPDATE_VEHICLE,
       variables: {
         id,
         vehicle,
-        schools
+        schools,
+        location
       }
     });
   }

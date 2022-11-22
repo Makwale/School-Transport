@@ -18,6 +18,7 @@ export interface Vehicle{
     availableSeats: number;
     type: string;
     driverId: string;
+    locations: Location[];
 }
 
 export interface Driver{
@@ -26,4 +27,9 @@ export interface Driver{
     surname: string;
     email: string;
     phone: string;
+}
+
+export interface Location{
+    latitude: number;
+    longitude: number;
 }
