@@ -1,9 +1,12 @@
 <div class="row no-gutters">
   <h3 mat-dialog-title >Vehicle Information</h3>
-  <button mat-button>Search transport</button>
+  <button *ngIf="!isSearchingTransport" (click)="searchTransport()" mat-button>Search transport <span class="material-icons">
+    search
+    </span></button>
+  <button *ngIf="isSearchingTransport" (click)="back()" mat-button>Back</button>
   
 </div>
-<div mat-dialog-content>
+<div mat-dialog-content *ngIf="!isSearchingTransport">
     <form [formGroup]="childForm">
         <div class="form-group">
             <label>Name</label>
@@ -114,7 +117,7 @@
     </div>
     </form>
 </div>
-<div mat-dialog-actions align="end">
+<div mat-dialog-actions align="end" *ngIf="!isSearchingTransport">
   <button mat-button mat-dialog-close>Close</button>
   <button (click)="updateChild()" mat-button  class="text-primary">
     <span *ngIf="!isLoading">Save</span>

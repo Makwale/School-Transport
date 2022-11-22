@@ -107,6 +107,7 @@ export class ChildrenComponent implements OnInit {
    editChild(child: Child){
      this.dialog.open(EditChildComponent, {
        width: '600px',
+       height: '800px',
        data: {child, schools: this.schools}
      })
    }

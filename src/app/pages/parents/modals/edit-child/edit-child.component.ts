@@ -28,6 +28,7 @@ export class EditChildComponent implements OnInit {
   levels = [];
   schools: School[];
   drivers: Driver[];
+  isSearchingTransport: boolean;
   constructor(
     private parentService: ParentService,
     private fb: FormBuilder,
@@ -139,5 +140,12 @@ export class EditChildComponent implements OnInit {
   hasError(controlName: string, validationType: string) {
     // tslint:disable-next-line:max-line-length
     return this.childForm.get(controlName).hasError(validationType) && (this.childForm.get(controlName).dirty || this.childForm.get(controlName).touched);
+  }
+  
+  searchTransport(){
+    this.isSearchingTransport = true;
+  }
+  back(){
+    this.isSearchingTransport = false;
   }
 }
