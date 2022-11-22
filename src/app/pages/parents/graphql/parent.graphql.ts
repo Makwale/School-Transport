@@ -18,6 +18,8 @@ query GetChildren($id: uuid) {
       streetName: street_name
       suburb
       city
+      latitude
+      longitude
       postalCode: postal_code
     }
   }
@@ -36,7 +38,12 @@ query GetChildren($id: uuid) {
   }`;
 
   export const UPDATE_CHILD = gql`
-  mutation UpdateChild($id: uuid!, $child: learner_set_input!){
+  mutation UpdateChild($id: uuid!, $child: learner_set_input!, $location: location_set_input){
+    update_location(where: {learner_id: {_eq: $id}}, _set: $location){
+      returning{
+        id
+      }
+    }
     update_learner_by_pk(pk_columns: {id: $id}, _set: $child){
       id
     }

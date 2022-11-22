@@ -33,7 +33,8 @@ export class ParentService {
       mutation: UPDATE_CHILD,
       variables: {
         id,
-        child
+        child,
+        location: address
       }
     });
   }

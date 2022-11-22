@@ -48,7 +48,9 @@ export class EditChildComponent implements OnInit {
       streetName: [(this.data.child as Child).location.streetName, [Validators.required]],
       suburb: [(this.data.child as Child).location.suburb, [Validators.required]],
       city: [(this.data.child as Child).location.city, [Validators.required]],
-      postalCode: [(this.data.child as Child).location.postalCode, [Validators.required]]
+      postalCode: [(this.data.child as Child).location?.postalCode, [Validators.required]],
+      lat: [(this.data.child as Child).location.latitude, [Validators.required]],
+      lon: [(this.data.child as Child).location?.longitude, [Validators.required]]
     });
 
 
@@ -85,6 +87,8 @@ export class EditChildComponent implements OnInit {
         suburb: this.childForm.value.suburb,
         city: this.childForm.value.city,
         postal_code: String(this.childForm.value.postalCode),
+        latitude: this.childForm.value.lat,
+        longitude: this.childForm.value.lon
     };
 
     const learner_schools = {
@@ -96,7 +100,7 @@ export class EditChildComponent implements OnInit {
 
     if(this.childForm.valid){
       this.isLoading = true;
-      this.parentService.updateChild(this.data.child.id, data).subscribe( response => {
+      this.parentService.updateChild(this.data.child.id, data,null, location ).subscribe( response => {
         this.isLoading = false;
         this.parentService.childrenQueryRef.refetch();
         swal.fire({

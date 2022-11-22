@@ -51,7 +51,9 @@ export class AddChildComponent implements OnInit {
       streetName: [null, [Validators.required]],
       suburb: [null, [Validators.required]],
       city: [null, [Validators.required]],
-      postalCode: [null, [Validators.required]]
+      postalCode: [null, [Validators.required]],
+      lat: [null, [Validators.required]],
+      lon: [null, [Validators.required]]
     });
 
 
@@ -82,6 +84,8 @@ export class AddChildComponent implements OnInit {
           street_name: this.childForm.value.streetName,
           suburb: this.childForm.value.suburb,
           city: this.childForm.value.city,
+          latitude: this.childForm.value.lat,
+          longitude: this.childForm.value.lon,
           postal_code: String(this.childForm.value.postalCode),
         }
       },

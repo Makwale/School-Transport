@@ -23,4 +23,6 @@ export interface Location{
     suburb: string;
     city: string;
     postalCode: number;
+    latitude: number;
+    longitude: number;
 }
