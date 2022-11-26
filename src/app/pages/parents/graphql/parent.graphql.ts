@@ -6,12 +6,32 @@ query GetChildren($id: uuid) {
     id
     name
     surname
+    learnerTransports: learner_transports{
+      vehicle{
+        id
+      }
+    }
     learnerSchool: learner_schools(where: {status: {_eq: "current_study"}}) {
       grade
       level
       school {
         id
         name
+        schoolTransports: school_transports{
+          vehicle{
+            id
+            make
+            model
+            type
+            regno
+            locations{
+              suburb
+              city
+              longitude
+              latitude
+            }
+          }
+        }
       }
     }
     location {
@@ -50,3 +70,9 @@ query GetChildren($id: uuid) {
   }
   `;
   
+  export const REQUEST_TRANSPORT = gql`
+  mutation RequestTransport($lt: learner_transport_insert_input!){
+    insert_learner_transport_one(object: $lt){
+      id
+    }
+  }`;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { GET_OWNERS } from '../../owners/graphql/owners.graphql';
-import { GET_CHILDREN, INSERT_CHILD, UPDATE_CHILD } from '../graphql/parent.graphql';
+import { GET_CHILDREN, INSERT_CHILD, REQUEST_TRANSPORT, UPDATE_CHILD } from '../graphql/parent.graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +41,14 @@ export class ParentService {
 
   getTransport(){
    
+  }
+
+  requestTransport(request: any){
+    return this.apollo.mutate({
+      mutation: REQUEST_TRANSPORT,
+      variables: {
+        lt: request
+      }
+    })
   }
 }

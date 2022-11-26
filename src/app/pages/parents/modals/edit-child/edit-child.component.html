@@ -1,10 +1,10 @@
 <div class="row no-gutters">
-  <h3 mat-dialog-title >Vehicle Information</h3>
-  <button *ngIf="!isSearchingTransport" (click)="searchTransport()" mat-button>Search transport <span class="material-icons">
+  <h3 mat-dialog-title >Child Information</h3>
+  <button *ngIf="!isSearchingTransport && !hasTransport" (click)="searchTransport()" mat-button>Search transport <span class="material-icons">
     search
     </span></button>
-  <button *ngIf="isSearchingTransport" (click)="back()" mat-button>Back</button>
-  
+  <button *ngIf="isSearchingTransport && !hasTransport" (click)="back()" mat-button>Back</button>
+  <button *ngIf="hasTransport" (click)="back()" mat-button>View Transport</button>
 </div>
 <div mat-dialog-content *ngIf="!isSearchingTransport">
     <form [formGroup]="childForm">
@@ -116,6 +116,34 @@
       </ng-container>
     </div>
     </form>
+</div>
+<div  mat-dialog-content *ngIf="isSearchingTransport">
+  <h3 class="text-dark">Transpors that are less than 10km away</h3>
+  <div *ngFor="let tr of closerTransports" class="card">
+    <div class="card-body">
+      <div class="row no-gutters">
+        <span style="width: fit-content;" class="badge badge-primary">
+          <span class="material-icons">
+            airport_shuttle
+          </span>
+        </span>
+        <span style="width: fit-content; " class="h5 mt-2">{{tr.vehicle.regno | uppercase}}</span>
+        
+      </div>
+      <div class="row no-gutters">
+        <span style="width:fit-content" class="h4 text-dark mt-3">{{tr.vehicle.make | uppercase}} {{tr.vehicle.model | uppercase}}</span>
+        <span style="width:fit-content" class="h4 ml-auto mt-3">{{tr.vehicle.type | uppercase}}</span>
+      </div>
+      <div class="row no-gutters">
+        <button color="primary" (click)="requestTransport(tr.vehicle)" mat-button>
+          <span *ngIf="!isRequesting">Request transport</span>
+          <div *ngIf="isRequesting" class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 <div mat-dialog-actions align="end" *ngIf="!isSearchingTransport">
   <button mat-button mat-dialog-close>Close</button>

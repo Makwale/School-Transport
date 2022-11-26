@@ -4,9 +4,12 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dial
 import { MatSelectChange } from '@angular/material/select';
 import { Driver } from 'src/app/pages/drivers/models/driver.model';
 import { AccountService } from 'src/app/services/account.service';
-import { Child, School } from '../../models/parent.model';
+import { Child, School, Vehicle } from '../../models/parent.model';
 import { ParentService } from '../../services/parent.service';
 import swal from "sweetalert2";
+
+declare var mapboxgl: any;
+declare var MapboxDirections; 
 
 @Component({
   selector: 'app-edit-child',
@@ -29,6 +32,10 @@ export class EditChildComponent implements OnInit {
   schools: School[];
   drivers: Driver[];
   isSearchingTransport: boolean;
+  hasTransport: boolean;
+  transports: any[];
+  closerTransports: any[];
+  isRequesting: boolean;
   constructor(
     private parentService: ParentService,
     private fb: FormBuilder,
@@ -40,6 +47,7 @@ export class EditChildComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data);
+  	mapboxgl.accessToken = 'pk.eyJ1IjoibWFudWVsbWFrd2FsZSIsImEiOiJja2hsc3lmYWUyZzRnMnRsNnY2NWIyeGR6In0.1MGnfpXj_dV2QBO3SchfqA';
     this.childForm = this.fb.group({
       name: [this.data.child.name, [Validators.required]],
       surname: [this.data.child.surname, [Validators.required]],
@@ -73,6 +81,20 @@ export class EditChildComponent implements OnInit {
     }else{
       this.grades = this.allGrades.filter(grade => grade > 7);
     }
+
+    if((this.data.child as Child).learnerSchool[0].school.schoolTransports.length > 0){
+      this.transports = (this.data.child as Child).learnerSchool[0].school.schoolTransports;
+      console.log(this.transports);
+    }
+
+    if((this.data.child as Child).learnerTransports.length){
+      const transport = (this.data.child as Child).learnerSchool[0].
+      school.schoolTransports.find( 
+        t => t.vehicle.id === (this.data.child as Child).learnerTransports[0]?.vehicle.id);
+      console.log(transport);
+      this.hasTransport = transport ? true : false;
+    }
+    
   }
 
   updateChild(){
@@ -144,8 +166,49 @@ export class EditChildComponent implements OnInit {
   
   searchTransport(){
     this.isSearchingTransport = true;
+    if(this.isSearchingTransport){
+      const learnerLocation = new mapboxgl.LngLat(-29.847932233104505, 30.99541354170813);
+      // const learnerLocation = new mapboxgl.LngLat(
+      // (this.data.child as Child).location.longitude, (this.data.child as Child).location.longitude);
+      this.closerTransports = this.transports.filter(tr => {
+        console.log(tr.vehicle.locations[0])
+        const vehicleLocation = new mapboxgl.LngLat(tr.vehicle.locations[0].longitude, tr.vehicle.locations[0].latitude);
+        const distance = learnerLocation.distanceTo(vehicleLocation);
+        console.log(distance);
+        if(distance <= 10000){
+          return tr;
+        }
+      });
+      console.log(this.closerTransports);
+    }
   }
   back(){
     this.isSearchingTransport = false;
   }
+
+  requestTransport(vehicle: any){
+    this.isRequesting = true;
+    const lt = {
+      learner_id: this.data.child.id,
+      vehicle_id: vehicle.id,
+      school_id: this.data.child.learnerSchool[0].school.id,
+      status: 'pending'
+    }
+    this.parentService.requestTransport(lt).subscribe( response => {
+      this.isRequesting = false;
+      this.parentService.childrenQueryRef.refetch();
+      swal.fire({
+        title: "Successfully requested",
+        icon: "success",
+      });
+    }, error => {
+      this.isRequesting = false;
+      swal.fire({
+        title: error.message,
+        icon: "error",
+      });
+    });
+  }
 }
+
+// -29.847932233104505, 30.99541354170813
