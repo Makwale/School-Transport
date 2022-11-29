@@ -167,9 +167,8 @@ export class EditChildComponent implements OnInit {
   searchTransport(){
     this.isSearchingTransport = true;
     if(this.isSearchingTransport){
-      const learnerLocation = new mapboxgl.LngLat(-29.847932233104505, 30.99541354170813);
-      // const learnerLocation = new mapboxgl.LngLat(
-      // (this.data.child as Child).location.longitude, (this.data.child as Child).location.longitude);
+      const learnerLocation = new mapboxgl.LngLat(
+      (this.data.child as Child).location.longitude, (this.data.child as Child).location.latitude);
       this.closerTransports = this.transports.filter(tr => {
         console.log(tr.vehicle.locations[0])
         const vehicleLocation = new mapboxgl.LngLat(tr.vehicle.locations[0].longitude, tr.vehicle.locations[0].latitude);
